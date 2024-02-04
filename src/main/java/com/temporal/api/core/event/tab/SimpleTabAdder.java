@@ -15,10 +15,12 @@ public class SimpleTabAdder implements TabAdder {
     }
 
     @SafeVarargs
-    protected final void addAllToTab(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
+    public final SimpleTabAdder addAllToTab(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
         for (Supplier<? extends ItemLike> registry : registries) {
             addToTab(tab, registry);
         }
+
+        return this;
     }
 
     @Override
