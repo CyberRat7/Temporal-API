@@ -12,11 +12,11 @@ public interface BowExtension {
     /**
      * @param args = args[0] - item properties
      */
-    default RegistryObject<BowItem> createArrow(String name, TypedFactory<Item> tTypedFactory, Object... args) {
+    default RegistryObject<BowItem> createBow(String name, TypedFactory<Item> tTypedFactory, Object... args) {
         return (RegistryObject<BowItem>) tTypedFactory.createTyped(name, () -> new BowItem((Item.Properties) args[0]));
     }
 
-    default RegistryObject<? extends BowItem> createArrow(String name, TypedFactory<Item> tTypedFactory, Supplier<? extends BowItem> tTypedSupplier) {
+    default RegistryObject<? extends BowItem> createBow(String name, TypedFactory<Item> tTypedFactory, Supplier<? extends BowItem> tTypedSupplier) {
         return (RegistryObject<? extends BowItem>) tTypedFactory.createTyped(name, tTypedSupplier);
     }
 }
