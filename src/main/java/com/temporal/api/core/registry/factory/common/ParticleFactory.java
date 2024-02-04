@@ -15,7 +15,7 @@ public abstract class ParticleFactory implements TypedFactory<ParticleType<Simpl
     }
 
     public RegistryObject<ParticleType<SimpleParticleType>> create(String name, boolean overrideLimiter) {
-        return particleRegister.register(name, particleRegister.register(name, () -> new SimpleParticleType(overrideLimiter)));
+        return create(name, () -> new SimpleParticleType(overrideLimiter));
     }
 
     @Override
