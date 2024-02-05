@@ -1,4 +1,4 @@
-package com.temporal.api.core.properties;
+package com.temporal.api.core.util.properties;
 
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
