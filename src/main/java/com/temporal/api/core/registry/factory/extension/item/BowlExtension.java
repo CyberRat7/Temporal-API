@@ -10,11 +10,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public interface BowlExtension {
-    /**
-     * @param args = args[0] - nutrition, args[1] - saturation
-     */
-    default RegistryObject<BowlFoodItem> createBowl(String name, TypedFactory<Item> tTypedFactory, Object... args) {
-        return (RegistryObject<BowlFoodItem>) tTypedFactory.createTyped(name, () -> new BowlFoodItem(new Item.Properties().stacksTo(1).food(new FoodProperties.Builder().nutrition((Integer) args[0]).saturationMod((Float) args[1]).build())));
+    default RegistryObject<BowlFoodItem> createBowl(String name, TypedFactory<Item> tTypedFactory, int nutrition, float saturation) {
+        return (RegistryObject<BowlFoodItem>) tTypedFactory.createTyped(name, () -> new BowlFoodItem(new Item.Properties().stacksTo(1).food(new FoodProperties.Builder().nutrition(nutrition).saturationMod(saturation).build())));
     }
 
     default RegistryObject<? extends BowlFoodItem> createBowl(String name, TypedFactory<Item> tTypedFactory, Supplier<? extends BowlFoodItem> tTypedSupplier) {

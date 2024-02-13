@@ -9,11 +9,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public interface ArrowExtension {
-    /**
-     * @param args = args[0] - item properties
-     */
-    default RegistryObject<ArrowItem> createArrow(String name, TypedFactory<Item> tTypedFactory, Object... args) {
-        return (RegistryObject<ArrowItem>) tTypedFactory.createTyped(name, () -> new ArrowItem((Item.Properties) args[0]));
+    default RegistryObject<ArrowItem> createArrow(String name, TypedFactory<Item> tTypedFactory, Item.Properties properties) {
+        return (RegistryObject<ArrowItem>) tTypedFactory.createTyped(name, () -> new ArrowItem(properties));
     }
 
     default RegistryObject<? extends ArrowItem> createArrow(String name, TypedFactory<Item> tTypedFactory, Supplier<? extends ArrowItem> tTypedSupplier) {

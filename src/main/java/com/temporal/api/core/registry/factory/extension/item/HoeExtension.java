@@ -10,11 +10,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public interface HoeExtension {
-    /**
-     * @param args = args[0] - tier, args[1] - damage, args[2] - speed
-     */
-    default RegistryObject<HoeItem> createHoe(String name, TypedFactory<Item> tTypedFactory, Object... args) {
-        return (RegistryObject<HoeItem>) tTypedFactory.createTyped(name, () -> new HoeItem((Tier) args[0], (Integer) args[1], (Float) args[2], new Item.Properties()));
+    default RegistryObject<HoeItem> createHoe(String name, TypedFactory<Item> tTypedFactory, Tier tier, int damage, float speed) {
+        return (RegistryObject<HoeItem>) tTypedFactory.createTyped(name, () -> new HoeItem(tier, damage, speed, new Item.Properties()));
     }
 
     default RegistryObject<? extends HoeItem> createHoe(String name, TypedFactory<Item> tTypedFactory, Supplier<? extends HoeItem> tTypedSupplier) {

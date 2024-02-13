@@ -7,5 +7,7 @@ import net.minecraft.world.level.ItemLike;
 import java.util.function.Supplier;
 
 public interface TabAdder {
+    TabAdder addAllToTab(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries);
+
     void addToTab(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike> registryObject);
 }

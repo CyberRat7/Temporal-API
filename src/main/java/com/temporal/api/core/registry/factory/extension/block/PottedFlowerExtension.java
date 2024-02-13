@@ -11,11 +11,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public interface PottedFlowerExtension {
-    /**
-     * @param args = args[0] - flower supplier, args[1] - block properties
-     */
-    default RegistryObject<FlowerPotBlock> createPot(String name, TypedFactory<Block> tTypedFactory, Object... args) {
-        return (RegistryObject<FlowerPotBlock>) tTypedFactory.createTyped(name, () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), (Supplier<? extends Block>) args[0], ((BlockBehaviour.Properties) args[1]).noOcclusion().noCollission()));
+    default RegistryObject<FlowerPotBlock> createPot(String name, TypedFactory<Block> tTypedFactory, BlockBehaviour.Properties properties, Supplier<? extends Block> flower) {
+        return (RegistryObject<FlowerPotBlock>) tTypedFactory.createTyped(name, () -> new FlowerPotBlock(() -> ((FlowerPotBlock) Blocks.FLOWER_POT), flower, properties.noOcclusion().noCollission()));
     }
 
     default RegistryObject<? extends FlowerPotBlock> createPot(String name, TypedFactory<Block> tTypedFactory, Supplier<? extends FlowerPotBlock> tTypedSupplier) {

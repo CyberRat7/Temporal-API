@@ -10,11 +10,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public interface SmithingTemplateExtension {
-    /**
-     * @param args = arg[0] - MOD_ID
-     */
-    default RegistryObject<SmithingTemplateItem> createSmithingTemplate(String name, TypedFactory<Item> tTypedFactory, Object... args) {
-        return (RegistryObject<SmithingTemplateItem>) tTypedFactory.createTyped(name, () -> SmithingTemplateItem.createArmorTrimTemplate(new ResourceLocation(args[0].toString(), name)));
+    default RegistryObject<SmithingTemplateItem> createSmithingTemplate(String name, TypedFactory<Item> tTypedFactory, String modId) {
+        return (RegistryObject<SmithingTemplateItem>) tTypedFactory.createTyped(name, () -> SmithingTemplateItem.createArmorTrimTemplate(new ResourceLocation(modId, name)));
     }
 
     default RegistryObject<? extends SmithingTemplateItem> createSmithingTemplate(String name, TypedFactory<Item> tTypedFactory, Supplier<? extends SmithingTemplateItem> tTypedSupplier) {

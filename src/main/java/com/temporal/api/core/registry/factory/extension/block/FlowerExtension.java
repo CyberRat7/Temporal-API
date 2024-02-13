@@ -11,11 +11,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public interface FlowerExtension {
-    /**
-     * @param args =  args[0] - block properties, args[1] - mob effect, args[2] - duration
-     */
-    default RegistryObject<FlowerBlock> createFlower(String name, TypedFactory<Block> tTypedFactory, Object... args) {
-        return (RegistryObject<FlowerBlock>) tTypedFactory.createTyped(name, () -> new FlowerBlock((Supplier<MobEffect>) args[1], (Integer) args[2], ((BlockBehaviour.Properties) args[0]).noOcclusion().noCollission()));
+    default RegistryObject<FlowerBlock> createFlower(String name, TypedFactory<Block> tTypedFactory, BlockBehaviour.Properties properties, Supplier<MobEffect> mobEffect, int duration) {
+        return (RegistryObject<FlowerBlock>) tTypedFactory.createTyped(name, () -> new FlowerBlock(mobEffect, duration, properties.noOcclusion().noCollission()));
     }
     
     default RegistryObject<? extends FlowerBlock> createFlower(String name, TypedFactory<Block> tTypedFactory, Supplier<? extends FlowerBlock> tTypedSupplier) {
