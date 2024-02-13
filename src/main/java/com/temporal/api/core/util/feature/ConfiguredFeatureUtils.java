@@ -9,11 +9,28 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 
 public class ConfiguredFeatureUtils {
-    public static ResourceKey<ConfiguredFeature<?, ?>> createKey(String name, String modId) {
+    private static volatile ConfiguredFeatureUtils instance;
+
+    private ConfiguredFeatureUtils() {
+    }
+
+    public ResourceKey<ConfiguredFeature<?, ?>> createKey(String name, String modId) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(modId, name));
     }
 
-    public static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
+    public <FC extends FeatureConfiguration, F extends Feature<FC>> void register(BootstapContext<ConfiguredFeature<?, ?>> context, ResourceKey<ConfiguredFeature<?, ?>> key, F feature, FC configuration) {
         context.register(key, new ConfiguredFeature<>(feature, configuration));
+    }
+
+    public static ConfiguredFeatureUtils getInstance() {
+        if (instance == null) {
+            synchronized (ConfiguredFeatureUtils.class) {
+                if (instance == null) {
+                    instance = new ConfiguredFeatureUtils();
+                }
+            }
+        }
+
+        return instance;
     }
 }
