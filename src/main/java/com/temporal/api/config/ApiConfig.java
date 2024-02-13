@@ -12,6 +12,6 @@ public class ApiConfig {
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     @SubscribeEvent
-    static void onLoad(final ModConfigEvent event) {
+    public static void onLoad(final ModConfigEvent event) {
     }
 }

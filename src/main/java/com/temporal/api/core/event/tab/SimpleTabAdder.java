@@ -14,8 +14,9 @@ public class SimpleTabAdder implements TabAdder {
         this.event = event;
     }
 
+    @Override
     @SafeVarargs
-    public final SimpleTabAdder addAllToTab(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
+    public final TabAdder addAllToTab(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
         for (Supplier<? extends ItemLike> registry : registries) {
             addToTab(tab, registry);
         }
