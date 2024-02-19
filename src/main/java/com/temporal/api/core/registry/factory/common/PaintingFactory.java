@@ -1,17 +1,17 @@
 package com.temporal.api.core.registry.factory.common;
 
+import com.temporal.api.core.engine.io.EnginedRegisterFactory;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 
-public abstract class PaintingFactory implements TypedFactory<PaintingVariant> {
-    private final DeferredRegister<PaintingVariant> paintingRegister;
-
-    public PaintingFactory(DeferredRegister<PaintingVariant> paintingRegister) {
-        this.paintingRegister = paintingRegister;
-    }
+public class PaintingFactory implements TypedFactory<PaintingVariant> {
+    public static final DeferredRegister<PaintingVariant> PAINTING_VARIANTS = EnginedRegisterFactory.create(Registries.PAINTING_VARIANT);
+    private static volatile PaintingFactory instance;
 
     public RegistryObject<PaintingVariant> create16x16(String name) {
         return create(name, 16, 16);
@@ -35,11 +35,28 @@ public abstract class PaintingFactory implements TypedFactory<PaintingVariant> {
 
     @Override
     public RegistryObject<PaintingVariant> create(String name, Supplier<PaintingVariant> paintingVariantSupplier) {
-        return paintingRegister.register(name, paintingVariantSupplier);
+        return PAINTING_VARIANTS.register(name, paintingVariantSupplier);
     }
 
     @Override
     public RegistryObject<? extends PaintingVariant> createTyped(String name, Supplier<? extends PaintingVariant> tSupplier) {
-        return paintingRegister.register(name, tSupplier);
+        return PAINTING_VARIANTS.register(name, tSupplier);
+    }
+
+    @Override
+    public void register(IEventBus eventBus) {
+        PAINTING_VARIANTS.register(eventBus);
+    }
+
+    public static PaintingFactory getInstance() {
+        if (instance == null) {
+            synchronized (PaintingFactory.class) {
+                if (instance == null) {
+                    instance = new PaintingFactory();
+                }
+            }
+        }
+
+        return instance;
     }
 }

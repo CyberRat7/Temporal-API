@@ -1,17 +1,30 @@
 package com.temporal.api.core.util.tag.factory;
 
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
+import com.temporal.api.core.engine.io.EnginedResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
-public class BlockTagFactory extends AbstractTagFactory<Item> {
-    public BlockTagFactory(String modId) {
-        super(modId);
+public class BlockTagFactory implements TagFactory<Block> {
+    private static volatile TagFactory<Block> instance;
+
+    private BlockTagFactory() {
     }
 
     @Override
-    public TagKey<Item> createTag(String name) {
-        return ItemTags.create(new ResourceLocation(this.getModId(), name));
+    public TagKey<Block> createTag(String name) {
+        return BlockTags.create(new EnginedResourceLocation(name));
+    }
+
+    public static TagFactory<Block> getInstance() {
+        if (instance == null) {
+            synchronized (BlockTagFactory.class) {
+                if (instance == null) {
+                    instance = new BlockTagFactory();
+                }
+            }
+        }
+
+        return instance;
     }
 }

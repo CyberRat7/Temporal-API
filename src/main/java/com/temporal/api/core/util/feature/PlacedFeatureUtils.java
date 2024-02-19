@@ -1,10 +1,10 @@
 package com.temporal.api.core.util.feature;
 
+import com.temporal.api.core.engine.io.EnginedResourceLocation;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
@@ -17,8 +17,8 @@ public class PlacedFeatureUtils {
     private PlacedFeatureUtils() {
     }
 
-    public ResourceKey<PlacedFeature> createKey(String name, String modId) {
-        return ResourceKey.create(Registries.PLACED_FEATURE, new ResourceLocation(modId, name));
+    public ResourceKey<PlacedFeature> createKey(String name) {
+        return ResourceKey.create(Registries.PLACED_FEATURE, new EnginedResourceLocation(name));
     }
 
     public void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration, List<PlacementModifier> modifiers) {

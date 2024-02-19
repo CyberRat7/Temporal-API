@@ -1,21 +1,21 @@
 package com.temporal.api.core.registry.factory.common;
 
+import com.temporal.api.core.engine.io.EnginedRegisterFactory;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
-public abstract class CreativeTabFactory implements ObjectFactory<CreativeModeTab> {
-    private final DeferredRegister<CreativeModeTab> creativeTabRegister;
-
-    public CreativeTabFactory(DeferredRegister<CreativeModeTab> creativeTabRegister) {
-        this.creativeTabRegister = creativeTabRegister;
-    }
+public class CreativeModeTabFactory implements ObjectFactory<CreativeModeTab> {
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = EnginedRegisterFactory.create(Registries.CREATIVE_MODE_TAB);
+    private static volatile CreativeModeTabFactory instance;
 
     public RegistryObject<CreativeModeTab> create(String name, Item icon, String translationId, Item... items) {
         return create(name, () -> CreativeModeTab.builder()
@@ -38,6 +38,23 @@ public abstract class CreativeTabFactory implements ObjectFactory<CreativeModeTa
 
     @Override
     public RegistryObject<CreativeModeTab> create(String name, Supplier<CreativeModeTab> creativeModeTabSupplier) {
-        return creativeTabRegister.register(name, creativeModeTabSupplier);
+        return CREATIVE_MODE_TABS.register(name, creativeModeTabSupplier);
+    }
+
+    @Override
+    public void register(IEventBus eventBus) {
+        CREATIVE_MODE_TABS.register(eventBus);
+    }
+
+    public static CreativeModeTabFactory getInstance() {
+        if (instance == null) {
+            synchronized (CreativeModeTabFactory.class) {
+                if (instance == null) {
+                    instance = new CreativeModeTabFactory();
+                }
+            }
+        }
+
+        return instance;
     }
 }
