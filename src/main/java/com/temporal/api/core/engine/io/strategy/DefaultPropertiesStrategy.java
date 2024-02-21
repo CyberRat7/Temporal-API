@@ -1,5 +1,7 @@
 package com.temporal.api.core.engine.io.strategy;
 
+import com.google.common.io.Resources;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystemNotFoundException;
@@ -13,7 +15,7 @@ public class DefaultPropertiesStrategy implements PropertiesStrategy {
         Properties properties = new Properties();
 
         try {
-            Path path = Path.of(ClassLoader.getSystemResource("api.properties").toURI());
+            Path path = Path.of(Resources.getResource("api.properties").toURI());
             properties.load(Files.newBufferedReader(path));
         } catch (URISyntaxException e) {
             throw new FileSystemNotFoundException(e.getMessage());

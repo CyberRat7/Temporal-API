@@ -16,18 +16,6 @@ public class DependencyPropertiesManager {
         this.setProperties(propertiesStrategy.findProperties());
     }
 
-    public final String getModId() {
-        return (String) properties.get("modId");
-    }
-
-    public final Class<?> getModClass() {
-        try {
-            return Class.forName((String) properties.get("modClass"));
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public PropertiesStrategy getPropertiesStrategy() {
         return propertiesStrategy;
     }

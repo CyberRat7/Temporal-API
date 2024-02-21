@@ -5,6 +5,6 @@ import net.minecraft.resources.ResourceLocation;
 
 public class EnginedResourceLocation extends ResourceLocation {
     public EnginedResourceLocation(String name) {
-        super(IOLayer.DEPENDENCY_PROPERTIES_MANAGER.getModId(), name);
+        super(IOLayer.DEPENDENCY_INFO.getModId(), name);
     }
 }
