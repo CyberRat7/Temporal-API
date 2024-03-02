@@ -2,34 +2,35 @@ package com.temporal.api.core.engine;
 
 import com.temporal.api.ApiMod;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LayerContainer {
     private static volatile LayerContainer instance;
-    private final Map<Integer, EngineLayer> LAYERS = new TreeMap<>();
+    private final List<EngineLayer> LAYERS = new ArrayList<>();
 
     private LayerContainer() {
-        put(1, new IOLayer());
-        put(2, new MetadataLayer());
+        add(new IOLayer());
+        add(new MetadataLayer());
     }
 
-    public void put(Integer priority, EngineLayer engineLayer) {
-        LAYERS.put(priority, engineLayer);
-    }
-
-    public void putAll(Map<Integer, EngineLayer> engineLayers) {
-        LAYERS.putAll(engineLayers);
-    }
-
-    public void processAll() {
-        LAYERS.forEach((priority, engineLayer) -> {
-            engineLayer.processAllTasks();
+    public void processAll(Class<?> modClass) {
+        LAYERS.forEach(engineLayer -> {
+            ApiMod.LOGGER.info("{} engine has started initialization!", engineLayer.getClass().getSimpleName().toUpperCase());
+            engineLayer.processAllTasks(modClass);
             ApiMod.LOGGER.info("{} engine has finished initialization!", engineLayer.getClass().getSimpleName().toUpperCase());
         });
     }
 
-    public EngineLayer getEngineLayer(Integer id) {
+    public void add(EngineLayer engineLayer) {
+        LAYERS.add(engineLayer);
+    }
+
+    public void putAll(List<EngineLayer> engineLayers) {
+        LAYERS.addAll(engineLayers);
+    }
+
+    public EngineLayer getLayer(Integer id) {
         return LAYERS.get(id);
     }
 

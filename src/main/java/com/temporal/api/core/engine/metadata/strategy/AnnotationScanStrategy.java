@@ -3,5 +3,5 @@ package com.temporal.api.core.engine.metadata.strategy;
 import java.util.Set;
 
 public interface AnnotationScanStrategy {
-    Set<Class<?>> execute(Class<?> clazz);
+    Set<Class<?>> scan();
 }

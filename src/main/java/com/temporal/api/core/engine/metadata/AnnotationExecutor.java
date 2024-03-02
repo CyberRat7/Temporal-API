@@ -18,13 +18,8 @@ public class AnnotationExecutor {
     public void execute() {
         try {
             AnnotationHelper helper = AnnotationHelper.getInstance();
-            Class<?> modClass = IOLayer.DEPENDENCY_INFO.getModClass();
-            if (helper.checkAnnotationPresented(modClass, AnnotationScan.class)) {
-                ApiMod.LOGGER.info("Annotation Strategy has been started: strategy - {}, class - {}", annotationScanStrategy.getClass().getSimpleName(), modClass.getSimpleName());
-                Set<Class<?>> classes = this.annotationScanStrategy.execute(modClass);
-            } else {
-                ApiMod.LOGGER.warn("Annotation Scan hasn't been performed!");
-            }
+            ApiMod.LOGGER.info("Annotation Strategy has been started: strategy - {}, class - {}", annotationScanStrategy.getClass().getSimpleName(), IOLayer.DEPENDENCY_INFO.getModClass().getSimpleName());
+            Set<Class<?>> classes = this.annotationScanStrategy.scan();
         } catch (Exception e) {
             ApiMod.LOGGER.error(e.getMessage());
         }

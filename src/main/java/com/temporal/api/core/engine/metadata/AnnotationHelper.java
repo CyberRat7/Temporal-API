@@ -3,7 +3,7 @@ package com.temporal.api.core.engine.metadata;
 import com.temporal.api.ApiMod;
 import com.temporal.api.core.engine.metadata.strategy.ClassAnnotationStrategy;
 import com.temporal.api.core.engine.metadata.strategy.FieldAnnotationStrategy;
-import com.temporal.api.core.engine.metadata.strategy.StrategyTypes;
+import com.temporal.api.core.engine.metadata.strategy.StrategyType;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -18,7 +18,7 @@ public class AnnotationHelper {
         final boolean isAnnotationPresented = checkAnnotationPresented(clazz, annotation);
         if (isAnnotationPresented) {
             strategy.execute(clazz);
-            ApiMod.LOGGER.debug("Scanned: strategy - {}, class - {}, type - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName(), StrategyTypes.CLASS_ANNOTATION);
+            ApiMod.LOGGER.debug("Scanned: strategy - {}, class - {}, type - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName(), StrategyType.CLASS_ANNOTATION);
         }
     }
 
@@ -26,7 +26,7 @@ public class AnnotationHelper {
         final boolean isAnnotationPresented = checkAnnotationPresented(clazz, annotation);
         if (isAnnotationPresented) {
             strategy.execute(clazz, object);
-            ApiMod.LOGGER.debug("Scanned: strategy - {}, class - {}, type - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName(), StrategyTypes.FIELD_ANNOTATION);
+            ApiMod.LOGGER.debug("Scanned: strategy - {}, class - {}, type - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName(), StrategyType.FIELD_ANNOTATION);
         }
     }
 

@@ -6,7 +6,7 @@ public class MetadataLayer implements EngineLayer {
     public static final AnnotationExecutor ANNOTATION_EXECUTOR = AnnotationExecutor.getInstance();
 
     @Override
-    public void processAllTasks() {
+    public void processAllTasks(Class<?> modClass) {
         ANNOTATION_EXECUTOR.execute();
     }
 }

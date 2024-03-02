@@ -17,6 +17,7 @@ public class ApiMod {
 
     public ApiMod() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
         MinecraftForge.EVENT_BUS.register(this);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ApiConfig.SPEC);
     }

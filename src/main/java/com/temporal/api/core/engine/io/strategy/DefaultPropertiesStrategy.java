@@ -1,26 +1,19 @@
 package com.temporal.api.core.engine.io.strategy;
 
-import com.google.common.io.Resources;
+import com.temporal.api.core.exception.InvalidNamingException;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.FileSystemNotFoundException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Properties;
 
 public class DefaultPropertiesStrategy implements PropertiesStrategy {
     @Override
-    public Properties findProperties() {
+    public Properties findProperties(Class<?> modClass) {
         Properties properties = new Properties();
 
         try {
-            Path path = Path.of(Resources.getResource("api.properties").toURI());
-            properties.load(Files.newBufferedReader(path));
-        } catch (URISyntaxException e) {
-            throw new FileSystemNotFoundException(e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            properties.put("modId", modClass.getDeclaredField("MOD_ID").get(null));
+            properties.put("modClass", modClass.getName());
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new InvalidNamingException("Mod ID field should be named as \"MOD_ID\"!" + e.getMessage());
         }
 
         return properties;

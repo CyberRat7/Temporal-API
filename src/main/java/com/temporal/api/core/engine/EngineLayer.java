@@ -1,5 +1,5 @@
 package com.temporal.api.core.engine;
 
 public interface EngineLayer {
-    void processAllTasks();
+    void processAllTasks(Class<?> modClass);
 }
