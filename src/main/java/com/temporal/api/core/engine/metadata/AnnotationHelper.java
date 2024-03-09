@@ -1,12 +1,9 @@
 package com.temporal.api.core.engine.metadata;
 
 import com.temporal.api.ApiMod;
-import com.temporal.api.core.engine.metadata.strategy.ClassAnnotationStrategy;
-import com.temporal.api.core.engine.metadata.strategy.FieldAnnotationStrategy;
-import com.temporal.api.core.engine.metadata.strategy.StrategyType;
+import com.temporal.api.core.engine.metadata.strategy.AnnotationStrategy;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.InvocationTargetException;
 
 public class AnnotationHelper {
     private static volatile AnnotationHelper instance;
@@ -14,24 +11,13 @@ public class AnnotationHelper {
     private AnnotationHelper() {
     }
 
-    public void executeStrategy(ClassAnnotationStrategy strategy, Class<?> clazz, Class<? extends Annotation> annotation) throws NoSuchFieldException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        final boolean isAnnotationPresented = checkAnnotationPresented(clazz, annotation);
-        if (isAnnotationPresented) {
-            strategy.execute(clazz);
-            ApiMod.LOGGER.debug("Scanned: strategy - {}, class - {}, type - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName(), StrategyType.CLASS_ANNOTATION);
+    public void executeStrategy(AnnotationStrategy strategy, Class<?> clazz, Class<? extends Annotation> annotation, Object object, Object... params) {
+        try {
+            strategy.execute(clazz, object, params);
+            ApiMod.LOGGER.info("Scanned: strategy - {}, class - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName());
+        } catch (Exception e) {
+            ApiMod.LOGGER.warn("{} for {} went wrong!", strategy.getClass().getSimpleName(), annotation.getSimpleName());
         }
-    }
-
-    public void executeStrategy(FieldAnnotationStrategy strategy, Class<?> clazz, Class<? extends Annotation> annotation, Object object) throws NoSuchFieldException, InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-        final boolean isAnnotationPresented = checkAnnotationPresented(clazz, annotation);
-        if (isAnnotationPresented) {
-            strategy.execute(clazz, object);
-            ApiMod.LOGGER.debug("Scanned: strategy - {}, class - {}, type - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName(), StrategyType.FIELD_ANNOTATION);
-        }
-    }
-
-    public boolean checkAnnotationPresented(Class<?> clazz, Class<? extends Annotation> annotation) {
-        return clazz != null && clazz.isAnnotationPresent(annotation);
     }
 
     public static AnnotationHelper getInstance() {
