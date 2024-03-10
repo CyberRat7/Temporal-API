@@ -1,8 +1,6 @@
 package com.temporal.api.core.engine.metadata;
 
 import com.temporal.api.ApiMod;
-import com.temporal.api.core.engine.metadata.annotation.DependencyContainer;
-import com.temporal.api.core.engine.metadata.annotation.FactoryRegistry;
 import com.temporal.api.core.engine.metadata.strategy.AnnotationStrategy;
 
 import java.lang.annotation.Annotation;

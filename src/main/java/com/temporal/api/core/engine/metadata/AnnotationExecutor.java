@@ -3,7 +3,6 @@ package com.temporal.api.core.engine.metadata;
 import com.temporal.api.ApiMod;
 import com.temporal.api.core.engine.IOLayer;
 import com.temporal.api.core.engine.metadata.annotation.DependencyContainer;
-import com.temporal.api.core.engine.metadata.annotation.FactoryRegistry;
 import com.temporal.api.core.engine.metadata.strategy.*;
 
 import java.util.Set;
@@ -11,12 +10,10 @@ import java.util.Set;
 public class AnnotationExecutor {
     private static volatile AnnotationExecutor instance;
     private AnnotationScanStrategy annotationScanStrategy;
-    private AnnotationStrategy factoryRegistryStrategy;
     private AnnotationStrategy dependencyContainerStrategy;
 
     private AnnotationExecutor() {
         this.annotationScanStrategy = new SimpleAnnotationScanStrategy();
-        this.factoryRegistryStrategy = new FactoryRegistryStrategy();
         this.dependencyContainerStrategy = new DependencyContainerStrategy();
     }
 
@@ -25,7 +22,6 @@ public class AnnotationExecutor {
             ApiMod.LOGGER.info("Annotation Strategy has been started: strategy - {}, class - {}", annotationScanStrategy.getClass().getSimpleName(), IOLayer.DEPENDENCY_INFO.getModClass().getSimpleName());
             AnnotationHelper helper = AnnotationHelper.getInstance();
             Set<Class<?>> classes = this.annotationScanStrategy.scan();
-            helper.executeStrategies(this.factoryRegistryStrategy, classes, FactoryRegistry.class, null);
             helper.executeStrategies(this.dependencyContainerStrategy, classes, DependencyContainer.class, null);
         } catch (Exception e) {
             ApiMod.LOGGER.error(e.getMessage());
@@ -38,14 +34,6 @@ public class AnnotationExecutor {
 
     public void setAnnotationScanStrategy(AnnotationScanStrategy annotationScanStrategy) {
         this.annotationScanStrategy = annotationScanStrategy;
-    }
-
-    public AnnotationStrategy getFactoryRegistryStrategy() {
-        return factoryRegistryStrategy;
-    }
-
-    public void setFactoryRegistryStrategy(AnnotationStrategy factoryRegistryStrategy) {
-        this.factoryRegistryStrategy = factoryRegistryStrategy;
     }
 
     public AnnotationStrategy getDependencyContainerStrategy() {

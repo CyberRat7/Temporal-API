@@ -2,6 +2,8 @@ package com.temporal.api;
 
 import com.mojang.logging.LogUtils;
 import com.temporal.api.core.engine.TemporalEngine;
+import com.temporal.api.core.registry.factory.common.BlockFactory;
+import com.temporal.api.core.registry.factory.common.ItemFactory;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import org.slf4j.Logger;
@@ -13,7 +15,10 @@ public class ApiMod {
 
     public ApiMod() {
         TemporalEngine.config()
-                .build(ApiMod.class);
+                .setupIOLayer(ApiMod.class)
+                .setupEventLayer(ItemFactory.getInstance(), BlockFactory.getInstance())
+                .build();
+
         MinecraftForge.EVENT_BUS.register(this);
     }
 }

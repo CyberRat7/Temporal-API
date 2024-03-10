@@ -1,7 +1,5 @@
 package com.temporal.api.core.engine;
 
-import com.temporal.api.ApiMod;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -12,17 +10,8 @@ public class LayerContainer {
 
     private LayerContainer() {
         this.addAll(List.of(
-                new IOLayer(), new MetadataLayer()
+                new IOLayer(), new EventLayer(), new MetadataLayer()
         ));
-    }
-
-    protected void processAll(Class<?> modClass) {
-        LAYERS.forEach(engineLayer -> {
-            ApiMod.LOGGER.info("{} engine has started initialization!", engineLayer.getClass().getSimpleName().toUpperCase());
-            engineLayer.processAllTasks(modClass);
-            System.gc();
-            ApiMod.LOGGER.info("{} engine has finished initialization!", engineLayer.getClass().getSimpleName().toUpperCase());
-        });
     }
 
     protected void addAll(Collection<EngineLayer> engineLayers) {
