@@ -3,7 +3,7 @@ package com.temporal.api.core.util.forge;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 
-@Deprecated(since = "1.6.0")
+@Deprecated(since = "1.6.0", forRemoval = true)
 public class ModListContainer {
     private static volatile ModListContainer instance;
     private final ModList modList;

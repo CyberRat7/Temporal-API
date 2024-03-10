@@ -3,6 +3,7 @@ package com.temporal.api.core.engine;
 import com.temporal.api.ApiMod;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class LayerContainer {
@@ -10,28 +11,38 @@ public class LayerContainer {
     private final List<EngineLayer> LAYERS = new ArrayList<>();
 
     private LayerContainer() {
-        add(new IOLayer());
-        add(new MetadataLayer());
+        this.addAll(List.of(
+                new IOLayer(), new MetadataLayer()
+        ));
     }
 
-    public void processAll(Class<?> modClass) {
+    protected void processAll(Class<?> modClass) {
         LAYERS.forEach(engineLayer -> {
             ApiMod.LOGGER.info("{} engine has started initialization!", engineLayer.getClass().getSimpleName().toUpperCase());
             engineLayer.processAllTasks(modClass);
+            System.gc();
             ApiMod.LOGGER.info("{} engine has finished initialization!", engineLayer.getClass().getSimpleName().toUpperCase());
         });
     }
 
-    public void add(EngineLayer engineLayer) {
-        LAYERS.add(engineLayer);
+    protected void addAll(Collection<EngineLayer> engineLayers) {
+        LAYERS.addAll(engineLayers);
     }
 
-    public void putAll(List<EngineLayer> engineLayers) {
-        LAYERS.addAll(engineLayers);
+    protected void add(EngineLayer engineLayer) {
+        LAYERS.add(engineLayer);
     }
 
     public EngineLayer getLayer(Integer id) {
         return LAYERS.get(id);
+    }
+
+    protected void delete(Class<? extends EngineLayer> layer) {
+        LAYERS.removeIf(engineLayer -> engineLayer.getClass().equals(layer));
+    }
+
+    protected void deleteAll(Collection<Class<? extends EngineLayer>> layers) {
+        layers.forEach(this::delete);
     }
 
     public static LayerContainer getInstance() {

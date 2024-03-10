@@ -17,6 +17,7 @@ public class SimpleAnnotationScanStrategy implements AnnotationScanStrategy {
                     .stream()
                     .filter(classInfo -> classInfo.getPackageName().contains(path))
                     .map(ClassPath.ClassInfo::load)
+                    .filter(aClass -> aClass.getAnnotations().length > 0 && !aClass.isAnnotation())
                     .collect(Collectors.toSet());
         } catch (IOException e) {
             throw new RuntimeException(e);

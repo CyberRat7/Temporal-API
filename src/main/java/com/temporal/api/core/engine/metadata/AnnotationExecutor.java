@@ -25,11 +25,8 @@ public class AnnotationExecutor {
             ApiMod.LOGGER.info("Annotation Strategy has been started: strategy - {}, class - {}", annotationScanStrategy.getClass().getSimpleName(), IOLayer.DEPENDENCY_INFO.getModClass().getSimpleName());
             AnnotationHelper helper = AnnotationHelper.getInstance();
             Set<Class<?>> classes = this.annotationScanStrategy.scan();
-            classes.forEach(aClass -> {
-                ApiMod.LOGGER.info("{} is going to be scanned", aClass.getName());
-                helper.executeStrategy(this.factoryRegistryStrategy, aClass, FactoryRegistry.class, null);
-                helper.executeStrategy(this.dependencyContainerStrategy, aClass, DependencyContainer.class, null);
-            });
+            helper.executeStrategies(this.factoryRegistryStrategy, classes, FactoryRegistry.class, null);
+            helper.executeStrategies(this.dependencyContainerStrategy, classes, DependencyContainer.class, null);
         } catch (Exception e) {
             ApiMod.LOGGER.error(e.getMessage());
         }
