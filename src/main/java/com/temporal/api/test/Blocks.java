@@ -8,6 +8,10 @@ import net.minecraftforge.registries.RegistryObject;
 public class Blocks {
     public static final BlockFactory BLOCK_FACTORY = BlockFactory.getInstance();
 
-    public static final RegistryObject<Block> ITEM_1 = BLOCK_FACTORY.create("block_1", BlockBehaviour.Properties.of());
-    public static final RegistryObject<Block> ITEM_2 = BLOCK_FACTORY.create("block_2", BlockBehaviour.Properties.of());
+    public static final RegistryObject<Block> BLOCK_1 = BLOCK_FACTORY.create("block_1", BlockBehaviour.Properties.of());
+    public static final RegistryObject<Block> BLOCK_2 = BLOCK_FACTORY.create("block_2", BlockBehaviour.Properties.of());
+
+    public static void register() {
+        BLOCK_FACTORY.register();
+    }
 }

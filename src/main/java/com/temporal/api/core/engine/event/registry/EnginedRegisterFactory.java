@@ -1,4 +1,4 @@
-package com.temporal.api.core.engine.io;
+package com.temporal.api.core.engine.event.registry;
 
 import com.temporal.api.core.engine.IOLayer;
 import net.minecraft.core.Registry;

@@ -9,4 +9,8 @@ public class Items {
 
     public static final RegistryObject<Item> ITEM_1 = ITEM_FACTORY.create("item_1");
     public static final RegistryObject<Item> ITEM_2 = ITEM_FACTORY.create("item_2");
+
+    public static void register() {
+        ITEM_FACTORY.register();
+    }
 }

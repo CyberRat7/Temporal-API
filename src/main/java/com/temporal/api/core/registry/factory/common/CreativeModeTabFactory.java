@@ -1,17 +1,18 @@
 package com.temporal.api.core.registry.factory.common;
 
-import com.temporal.api.core.engine.io.EnginedRegisterFactory;
+import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Collection;
 import java.util.function.Supplier;
+
+import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class CreativeModeTabFactory implements ObjectFactory<CreativeModeTab> {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = EnginedRegisterFactory.create(Registries.CREATIVE_MODE_TAB);
@@ -42,8 +43,8 @@ public class CreativeModeTabFactory implements ObjectFactory<CreativeModeTab> {
     }
 
     @Override
-    public void register(IEventBus eventBus) {
-        CREATIVE_MODE_TABS.register(eventBus);
+    public void register() {
+        CREATIVE_MODE_TABS.register(EVENT_BUS);
     }
 
     public static CreativeModeTabFactory getInstance() {

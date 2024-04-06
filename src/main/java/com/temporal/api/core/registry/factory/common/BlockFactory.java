@@ -1,16 +1,17 @@
 package com.temporal.api.core.registry.factory.common;
 
-import com.temporal.api.core.engine.io.EnginedRegisterFactory;
+import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
+
+import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class BlockFactory implements TypedFactory<Block> {
     public static final DeferredRegister<Block> BLOCKS = EnginedRegisterFactory.create(Registries.BLOCK);
@@ -36,8 +37,8 @@ public class BlockFactory implements TypedFactory<Block> {
     }
 
     @Override
-    public void register(IEventBus eventBus) {
-        BLOCKS.register(eventBus);
+    public void register() {
+        BLOCKS.register(EVENT_BUS);
     }
 
     public static BlockFactory getInstance() {

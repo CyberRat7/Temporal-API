@@ -14,9 +14,9 @@ public class AnnotationHelper {
     private AnnotationHelper() {
     }
 
-    public void executeStrategies(AnnotationStrategy strategy, Set<Class<?>> classes, Class<? extends Annotation> annotation, Object object, Object... params) {
+    public void executeStrategy(AnnotationStrategy strategy, Set<Class<?>> classes, Class<? extends Annotation> annotation, Object object, Object... params) {
         classes.stream()
-                .filter(clazz -> this.isAnnotationPresent(clazz, annotation))
+                .filter(clazz -> isAnnotationPresent(clazz, annotation))
                 .forEach(clazz -> this.executeStrategy(strategy, clazz, annotation, object, params));
     }
 

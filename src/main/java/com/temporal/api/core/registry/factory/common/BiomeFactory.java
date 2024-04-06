@@ -1,13 +1,14 @@
 package com.temporal.api.core.registry.factory.common;
 
-import com.temporal.api.core.engine.io.EnginedRegisterFactory;
+import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
+
+import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class BiomeFactory implements TypedFactory<Biome> {
     public static final DeferredRegister<Biome> BIOMES = EnginedRegisterFactory.create(Registries.BIOME);
@@ -24,8 +25,8 @@ public class BiomeFactory implements TypedFactory<Biome> {
     }
 
     @Override
-    public void register(IEventBus eventBus) {
-        BIOMES.register(eventBus);
+    public void register() {
+        BIOMES.register(EVENT_BUS);
     }
 
     public static BiomeFactory getInstance() {

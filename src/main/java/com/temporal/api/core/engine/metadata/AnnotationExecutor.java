@@ -20,9 +20,9 @@ public class AnnotationExecutor {
     public void execute() {
         try {
             ApiMod.LOGGER.info("Annotation Strategy has been started: strategy - {}, class - {}", annotationScanStrategy.getClass().getSimpleName(), IOLayer.DEPENDENCY_INFO.getModClass().getSimpleName());
-            AnnotationHelper helper = AnnotationHelper.getInstance();
             Set<Class<?>> classes = this.annotationScanStrategy.scan();
-            helper.executeStrategies(this.dependencyContainerStrategy, classes, DependencyContainer.class, null);
+            AnnotationHelper helper = AnnotationHelper.getInstance();
+            helper.executeStrategy(this.dependencyContainerStrategy, classes, DependencyContainer.class, null);
         } catch (Exception e) {
             ApiMod.LOGGER.error(e.getMessage());
         }

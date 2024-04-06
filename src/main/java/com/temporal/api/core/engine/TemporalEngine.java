@@ -1,8 +1,8 @@
 package com.temporal.api.core.engine;
 
 import com.temporal.api.ApiMod;
-import com.temporal.api.core.registry.factory.common.ObjectFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TemporalEngine {
@@ -17,6 +17,14 @@ public class TemporalEngine {
                           |-|    --------| |-|    |-| |-|
                     """;
 
+    public static LayerContainer run(Class<?> modClass) {
+        return config()
+                .setupIOLayer(modClass)
+                .setupEventLayer()
+                .processAllLayers()
+                .build();
+    }
+
     public static Configurator config() {
         return new Configurator();
     }
@@ -24,45 +32,56 @@ public class TemporalEngine {
     public static class Configurator {
         private final LayerContainer layerContainer = LayerContainer.getInstance();
         private final String loadMessage = "{} has been loaded!";
+        private final List<ConfiguratorTask> tasks = new ArrayList<>(4);
 
         private Configurator() {
         }
 
         public Configurator addLayer(EngineLayer engineLayer) {
-            layerContainer.add(engineLayer);
+            ConfiguratorTask addLayerTask = () -> layerContainer.add(engineLayer);
+            tasks.add(addLayerTask);
             return this;
         }
 
         public Configurator disableLayer(Class<? extends EngineLayer> engineLayerClass) {
-            layerContainer.delete(engineLayerClass);
+            ConfiguratorTask deleteLayerTask = () -> layerContainer.delete(engineLayerClass);
+            tasks.add(deleteLayerTask);
             return this;
         }
 
         public Configurator setupIOLayer(Class<?> modClass) {
-            IOLayer ioLayer = (IOLayer) layerContainer.getLayer(0);
-            ioLayer.setModClass(modClass);
-            ioLayer.processAllTasks();
-            ApiMod.LOGGER.info(this.loadMessage, "IOLayer");
+            ConfiguratorTask ioSetupTask = () -> {
+                IOLayer ioLayer = (IOLayer) layerContainer.getLayer(0);
+                ioLayer.setModClass(modClass);
+            };
+            tasks.add(ioSetupTask);
             return this;
         }
 
-        public Configurator setupEventLayer(ObjectFactory<?>... factories) {
-            EventLayer eventLayer = (EventLayer) layerContainer.getLayer(1);
-            EventLayer.EVENT_BUS_HANDLER.setFactories(List.of(factories));
-            eventLayer.processAllTasks();
-            ApiMod.LOGGER.info(this.loadMessage, "EventLayer");
+        public Configurator setupEventLayer() {
+            //Nothing's here
             return this;
         }
 
         public Configurator setupMetadataLayer() {
-            MetadataLayer metadataLayer = (MetadataLayer) layerContainer.getLayer(2);
-            metadataLayer.processAllTasks();
-            ApiMod.LOGGER.info(this.loadMessage, "MetadataLayer");
+            //Nothing's here
+            return this;
+        }
+
+        public Configurator processAllLayers() {
+            ConfiguratorTask processLayersTask = () -> {
+                layerContainer.getLayers().forEach(engineLayer -> {
+                    engineLayer.processAllTasks();
+                    ApiMod.LOGGER.info(this.loadMessage, engineLayer.getClass().getSimpleName());
+                });
+            };
+            tasks.add(processLayersTask);
             return this;
         }
 
         public LayerContainer build() {
             System.out.println(BANNER);
+            tasks.forEach(ConfiguratorTask::execute);
             return this.layerContainer;
         }
     }
