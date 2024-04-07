@@ -6,9 +6,9 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class FlammableRotatedPillarBlock extends RotatedPillarBlock {
+public class LogBlock extends RotatedPillarBlock {
 
-    public FlammableRotatedPillarBlock(Properties properties) {
+    public LogBlock(Properties properties) {
         super(properties);
     }
 

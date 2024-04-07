@@ -7,10 +7,10 @@ import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 import org.jetbrains.annotations.Nullable;
 
-public class StrippableFlammableRotatedPillarBlock extends FlammableRotatedPillarBlock {
+public class StrippableLogBlock extends LogBlock {
     public final Block strippedResult;
 
-    public StrippableFlammableRotatedPillarBlock(Block strippedResult, Properties properties) {
+    public StrippableLogBlock(Block strippedResult, Properties properties) {
         super(properties);
         this.strippedResult = strippedResult;
     }
