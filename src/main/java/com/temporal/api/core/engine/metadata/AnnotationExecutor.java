@@ -2,19 +2,31 @@ package com.temporal.api.core.engine.metadata;
 
 import com.temporal.api.ApiMod;
 import com.temporal.api.core.engine.IOLayer;
-import com.temporal.api.core.engine.metadata.annotation.DependencyContainer;
-import com.temporal.api.core.engine.metadata.strategy.*;
+import com.temporal.api.core.engine.metadata.annotation.Dependency;
+import com.temporal.api.core.engine.metadata.annotation.Injected;
+import com.temporal.api.core.engine.metadata.annotation.Injection;
+import com.temporal.api.core.engine.metadata.context.ExtraContextInitializer;
+import com.temporal.api.core.engine.metadata.strategy.field.DependencyStrategy;
+import com.temporal.api.core.engine.metadata.strategy.field.FieldAnnotationStrategy;
+import com.temporal.api.core.engine.metadata.strategy.field.InjectionStrategy;
+import com.temporal.api.core.engine.metadata.strategy.scan.AnnotationScanStrategy;
+import com.temporal.api.core.engine.metadata.strategy.scan.SimpleAnnotationScanStrategy;
+import com.temporal.api.core.engine.metadata.strategy.type.ClassAnnotationStrategy;
+import com.temporal.api.core.engine.metadata.strategy.type.InjectedStrategy;
 
 import java.util.Set;
 
 public class AnnotationExecutor {
-    private static volatile AnnotationExecutor instance;
     private AnnotationScanStrategy annotationScanStrategy;
-    private AnnotationStrategy dependencyContainerStrategy;
+    private ClassAnnotationStrategy injectedStrategy;
+    private FieldAnnotationStrategy injectionStrategy;
+    private FieldAnnotationStrategy dependencyStrategy;
 
-    private AnnotationExecutor() {
+    public AnnotationExecutor() {
         this.annotationScanStrategy = new SimpleAnnotationScanStrategy();
-        this.dependencyContainerStrategy = new DependencyContainerStrategy();
+        this.injectedStrategy = new InjectedStrategy();
+        this.injectionStrategy = new InjectionStrategy();
+        this.dependencyStrategy = new DependencyStrategy();
     }
 
     public void execute() {
@@ -22,9 +34,13 @@ public class AnnotationExecutor {
             ApiMod.LOGGER.info("Annotation Strategy has been started: strategy - {}, class - {}", annotationScanStrategy.getClass().getSimpleName(), IOLayer.DEPENDENCY_INFO.getModClass().getSimpleName());
             Set<Class<?>> classes = this.annotationScanStrategy.scan();
             AnnotationHelper helper = AnnotationHelper.getInstance();
-            helper.executeStrategy(this.dependencyContainerStrategy, classes, DependencyContainer.class, null);
+            helper.setClasses(classes);
+            helper.executeStrategy(this.injectedStrategy, Injected.class);
+            helper.executeStrategy(this.injectionStrategy, Injection.class);
+            helper.executeStrategy(this.dependencyStrategy, Dependency.class);
         } catch (Exception e) {
             ApiMod.LOGGER.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -36,23 +52,27 @@ public class AnnotationExecutor {
         this.annotationScanStrategy = annotationScanStrategy;
     }
 
-    public AnnotationStrategy getDependencyContainerStrategy() {
-        return dependencyContainerStrategy;
+    public ClassAnnotationStrategy getInjectedStrategy() {
+        return injectedStrategy;
     }
 
-    public void setDependencyContainerStrategy(AnnotationStrategy dependencyContainerStrategy) {
-        this.dependencyContainerStrategy = dependencyContainerStrategy;
+    public void setInjectedStrategy(ClassAnnotationStrategy injectedStrategy) {
+        this.injectedStrategy = injectedStrategy;
     }
 
-    public static AnnotationExecutor getInstance() {
-        if (instance == null) {
-            synchronized (AnnotationExecutor.class) {
-                if (instance == null) {
-                    instance = new AnnotationExecutor();
-                }
-            }
-        }
+    public FieldAnnotationStrategy getInjectionStrategy() {
+        return injectionStrategy;
+    }
 
-        return instance;
+    public void setInjectionStrategy(FieldAnnotationStrategy injectionStrategy) {
+        this.injectionStrategy = injectionStrategy;
+    }
+
+    public FieldAnnotationStrategy getDependencyStrategy() {
+        return dependencyStrategy;
+    }
+
+    public void setDependencyStrategy(FieldAnnotationStrategy dependencyStrategy) {
+        this.dependencyStrategy = dependencyStrategy;
     }
 }

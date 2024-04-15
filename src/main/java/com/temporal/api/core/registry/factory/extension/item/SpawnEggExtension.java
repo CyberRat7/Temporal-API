@@ -1,5 +1,6 @@
 package com.temporal.api.core.registry.factory.extension.item;
 
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
 import com.temporal.api.core.registry.factory.common.ItemFactory;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -12,10 +13,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface SpawnEggExtension {
     default RegistryObject<ForgeSpawnEggItem> createSpawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> type, int backgroundColor, int foregroundColor) {
-        return (RegistryObject<ForgeSpawnEggItem>) ItemFactory.getInstance().createTyped(name, () -> new ForgeSpawnEggItem(type, backgroundColor, foregroundColor, new Item.Properties()));
+        ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
+        return (RegistryObject<ForgeSpawnEggItem>) itemFactory.createTyped(name, () -> new ForgeSpawnEggItem(type, backgroundColor, foregroundColor, new Item.Properties()));
     }
 
     default RegistryObject<? extends ForgeSpawnEggItem> createSpawnEgg(String name, Supplier<? extends ForgeSpawnEggItem> tTypedSupplier) {
-        return (RegistryObject<? extends ForgeSpawnEggItem>) ItemFactory.getInstance().createTyped(name, tTypedSupplier);
+        ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
+        return (RegistryObject<? extends ForgeSpawnEggItem>) itemFactory.createTyped(name, tTypedSupplier);
     }
 }

@@ -1,12 +1,13 @@
 package com.temporal.api.core.engine;
 
 import com.temporal.api.core.engine.metadata.AnnotationExecutor;
+import com.temporal.api.core.engine.metadata.context.ExtraContextInitializer;
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
 
 public class MetadataLayer implements EngineLayer {
-    public static final AnnotationExecutor ANNOTATION_EXECUTOR = AnnotationExecutor.getInstance();
-
     @Override
     public void processAllTasks() {
-        ANNOTATION_EXECUTOR.execute();
+        ExtraContextInitializer.init();
+        InjectionContext.getInstance().getObject(AnnotationExecutor.class).execute();
     }
 }

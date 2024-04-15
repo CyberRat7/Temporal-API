@@ -1,5 +1,6 @@
 package com.temporal.api.core.registry.factory.extension.item;
 
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
 import com.temporal.api.core.registry.factory.common.ItemFactory;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.Item;
@@ -10,10 +11,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface ArrowExtension {
     default RegistryObject<ArrowItem> createArrow(String name, Item.Properties properties) {
-        return (RegistryObject<ArrowItem>) ItemFactory.getInstance().createTyped(name, () -> new ArrowItem(properties));
+        ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
+        return (RegistryObject<ArrowItem>) itemFactory.createTyped(name, () -> new ArrowItem(properties));
     }
 
     default RegistryObject<? extends ArrowItem> createArrow(String name, Supplier<? extends ArrowItem> tTypedSupplier) {
-        return (RegistryObject<? extends ArrowItem>) ItemFactory.getInstance().createTyped(name, tTypedSupplier);
+        ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
+        return (RegistryObject<? extends ArrowItem>) itemFactory.createTyped(name, tTypedSupplier);
     }
 }

@@ -1,5 +1,6 @@
 package com.temporal.api.core.registry.factory.extension.item;
 
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
 import com.temporal.api.core.registry.factory.common.ItemFactory;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,6 +27,7 @@ public interface FoodExtension {
     }
 
     default RegistryObject<Item> createFood(String name, Item.Properties properties, FoodProperties foodProperties) {
-        return (RegistryObject<Item>) ItemFactory.getInstance().createTyped(name, () -> new Item(properties.food(foodProperties)));
+        ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
+        return (RegistryObject<Item>) itemFactory.createTyped(name, () -> new Item(properties.food(foodProperties)));
     }
 }

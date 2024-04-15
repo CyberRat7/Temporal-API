@@ -1,5 +1,6 @@
 package com.temporal.api.core.registry.factory.extension.item;
 
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
 import com.temporal.api.core.registry.factory.common.ItemFactory;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
@@ -12,10 +13,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface MusicDiscExtension {
     default RegistryObject<RecordItem> createMusicDisc(String name, int comparatorValue, Supplier<SoundEvent> soundEvent, int lengthInTicks) {
-        return (RegistryObject<RecordItem>) ItemFactory.getInstance().createTyped(name, () -> new RecordItem(comparatorValue, soundEvent, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), lengthInTicks));
+        ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
+        return (RegistryObject<RecordItem>) itemFactory.createTyped(name, () -> new RecordItem(comparatorValue, soundEvent, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), lengthInTicks));
     }
 
     default RegistryObject<? extends RecordItem> createMusicDisc(String name, Supplier<? extends RecordItem> tTypedSupplier) {
-        return (RegistryObject<? extends RecordItem>) ItemFactory.getInstance().createTyped(name, tTypedSupplier);
+        ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
+        return (RegistryObject<? extends RecordItem>) itemFactory.createTyped(name, tTypedSupplier);
     }
 }

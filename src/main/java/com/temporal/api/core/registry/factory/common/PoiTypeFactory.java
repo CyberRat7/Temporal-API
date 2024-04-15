@@ -2,6 +2,7 @@ package com.temporal.api.core.registry.factory.common;
 
 import com.google.common.collect.ImmutableSet;
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.metadata.annotation.Injected;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.Block;
@@ -16,7 +17,6 @@ import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class PoiTypeFactory implements TypedFactory<PoiType> {
     public static final DeferredRegister<PoiType> POI_TYPES = EnginedRegisterFactory.create(Registries.POINT_OF_INTEREST_TYPE);
-    private static volatile PoiTypeFactory instance;
 
     public RegistryObject<PoiType> create(String name, Block block, int maxTickets, int validRange) {
         return create(name, ImmutableSet.copyOf(block.getStateDefinition().getPossibleStates()), maxTickets, validRange);
@@ -39,17 +39,5 @@ public class PoiTypeFactory implements TypedFactory<PoiType> {
     @Override
     public void register() {
         POI_TYPES.register(EVENT_BUS);
-    }
-
-    public static PoiTypeFactory getInstance() {
-        if (instance == null) {
-            synchronized (PoiTypeFactory.class) {
-                if (instance == null) {
-                    instance = new PoiTypeFactory();
-                }
-            }
-        }
-
-        return instance;
     }
 }

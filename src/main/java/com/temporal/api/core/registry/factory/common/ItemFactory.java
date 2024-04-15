@@ -1,6 +1,7 @@
 package com.temporal.api.core.registry.factory.common;
 
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.metadata.annotation.Injected;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
@@ -12,7 +13,6 @@ import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class ItemFactory implements TypedFactory<Item> {
     public static final DeferredRegister<Item> ITEMS = EnginedRegisterFactory.create(Registries.ITEM);
-    private static volatile ItemFactory instance;
 
     public RegistryObject<Item> create(String name) {
         return create(name, () -> new Item(new Item.Properties()));
@@ -35,17 +35,5 @@ public class ItemFactory implements TypedFactory<Item> {
     @Override
     public void register() {
         ITEMS.register(EVENT_BUS);
-    }
-
-    public static ItemFactory getInstance() {
-        if (instance == null) {
-            synchronized (ItemFactory.class) {
-                if (instance == null) {
-                    instance = new ItemFactory();
-                }
-            }
-        }
-
-        return instance;
     }
 }

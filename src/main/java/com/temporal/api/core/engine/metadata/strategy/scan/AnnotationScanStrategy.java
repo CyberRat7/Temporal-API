@@ -1,4 +1,4 @@
-package com.temporal.api.core.engine.metadata.strategy;
+package com.temporal.api.core.engine.metadata.strategy.scan;
 
 import java.util.Set;
 

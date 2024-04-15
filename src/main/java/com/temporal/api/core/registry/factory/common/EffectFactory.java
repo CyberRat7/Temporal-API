@@ -1,6 +1,7 @@
 package com.temporal.api.core.registry.factory.common;
 
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.metadata.annotation.Injected;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.registries.DeferredRegister;
@@ -12,7 +13,6 @@ import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class EffectFactory implements TypedFactory<MobEffect> {
     public static final DeferredRegister<MobEffect> EFFECTS = EnginedRegisterFactory.create(Registries.MOB_EFFECT);
-    private static volatile EffectFactory instance;
 
     @Override
     public RegistryObject<MobEffect> create(String name, Supplier<MobEffect> mobEffectSupplier) {
@@ -27,17 +27,5 @@ public class EffectFactory implements TypedFactory<MobEffect> {
     @Override
     public void register() {
         EFFECTS.register(EVENT_BUS);
-    }
-
-    public static EffectFactory getInstance() {
-        if (instance == null) {
-            synchronized (EffectFactory.class) {
-                if (instance == null) {
-                    instance = new EffectFactory();
-                }
-            }
-        }
-
-        return instance;
     }
 }

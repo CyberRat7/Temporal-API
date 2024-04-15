@@ -1,6 +1,9 @@
 package com.temporal.api.core.registry.factory.common;
 
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.metadata.annotation.Injected;
+import com.temporal.api.core.engine.metadata.annotation.Injection;
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -15,8 +18,7 @@ import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class BlockFactory implements TypedFactory<Block> {
     public static final DeferredRegister<Block> BLOCKS = EnginedRegisterFactory.create(Registries.BLOCK);
-    private static final TypedFactory<Item> itemFactory = ItemFactory.getInstance();
-    private static volatile BlockFactory instance;
+    private final ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
 
     public RegistryObject<Block> create(String name, BlockBehaviour.Properties properties) {
         return create(name, () -> new Block(properties));
@@ -25,31 +27,19 @@ public class BlockFactory implements TypedFactory<Block> {
     @Override
     public RegistryObject<Block> create(String name, Supplier<Block> blockSupplier) {
         RegistryObject<Block> block = BLOCKS.register(name, blockSupplier);
-        itemFactory.createTyped(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        this.itemFactory.createTyped(name, () -> new BlockItem(block.get(), new Item.Properties()));
         return block;
     }
 
     @Override
     public RegistryObject<? extends Block> createTyped(String name, Supplier<? extends Block> typedBlockSupplier) {
         RegistryObject<? extends Block> typedBlock = BLOCKS.register(name, typedBlockSupplier);
-        itemFactory.createTyped(name, () -> new BlockItem(typedBlock.get(), new Item.Properties()));
+        this.itemFactory.createTyped(name, () -> new BlockItem(typedBlock.get(), new Item.Properties()));
         return typedBlock;
     }
 
     @Override
     public void register() {
         BLOCKS.register(EVENT_BUS);
-    }
-
-    public static BlockFactory getInstance() {
-        if (instance == null) {
-            synchronized (BlockFactory.class) {
-                if (instance == null) {
-                    instance = new BlockFactory();
-                }
-            }
-        }
-
-        return instance;
     }
 }

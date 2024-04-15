@@ -1,7 +1,11 @@
-package com.temporal.api.core.engine.metadata.strategy;
+package com.temporal.api.core.engine.metadata.strategy.scan;
 
 import com.google.common.reflect.ClassPath;
 import com.temporal.api.core.engine.IOLayer;
+import com.temporal.api.core.engine.metadata.AnnotationHelper;
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
+import com.temporal.api.core.engine.metadata.context.Context;
+import com.temporal.api.core.engine.metadata.annotation.Injected;
 
 import java.io.*;
 import java.util.Set;
@@ -18,6 +22,7 @@ public class SimpleAnnotationScanStrategy implements AnnotationScanStrategy {
                     .filter(classInfo -> classInfo.getPackageName().contains(path))
                     .map(ClassPath.ClassInfo::load)
                     .filter(aClass -> aClass.getAnnotations().length > 0 && !aClass.isAnnotation())
+                    .filter(aClass -> AnnotationHelper.getInstance().isAnnotationPresent(aClass, Injected.class))
                     .collect(Collectors.toSet());
         } catch (IOException e) {
             throw new RuntimeException(e);

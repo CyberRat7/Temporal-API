@@ -1,4 +1,4 @@
-package com.temporal.api.core.util.tag.factory;
+package com.temporal.api.core.tag.factory;
 
 import net.minecraft.tags.TagKey;
 

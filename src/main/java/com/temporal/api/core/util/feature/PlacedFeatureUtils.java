@@ -12,32 +12,15 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import java.util.List;
 
 public class PlacedFeatureUtils {
-    private static volatile PlacedFeatureUtils instance;
-
-    private PlacedFeatureUtils() {
-    }
-
-    public ResourceKey<PlacedFeature> createKey(String name) {
+    public static ResourceKey<PlacedFeature> createKey(String name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, new EnginedResourceLocation(name));
     }
 
-    public void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration, List<PlacementModifier> modifiers) {
+    public static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration, List<PlacementModifier> modifiers) {
         context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
     }
 
-    public void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration, PlacementModifier... modifiers) {
+    public static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration, PlacementModifier... modifiers) {
         register(context, key, configuration, List.of(modifiers));
-    }
-
-    public static PlacedFeatureUtils getInstance() {
-        if (instance == null) {
-            synchronized (PlacedFeatureUtils.class) {
-                if (instance == null) {
-                    instance = new PlacedFeatureUtils();
-                }
-            }
-        }
-
-        return instance;
     }
 }

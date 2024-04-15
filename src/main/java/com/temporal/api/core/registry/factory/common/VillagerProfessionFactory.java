@@ -2,6 +2,7 @@ package com.temporal.api.core.registry.factory.common;
 
 import com.google.common.collect.ImmutableSet;
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.metadata.annotation.Injected;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
@@ -17,7 +18,6 @@ import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class VillagerProfessionFactory implements TypedFactory<VillagerProfession> {
     public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = EnginedRegisterFactory.create(Registries.VILLAGER_PROFESSION);
-    private static volatile VillagerProfessionFactory instance;
 
     public RegistryObject<VillagerProfession> create(String name, String professionName, PoiType heldJobSite, SoundEvent workSound) {
         return create(name, () -> new VillagerProfession(professionName, holder -> holder.get() == heldJobSite, holder -> holder.get() == heldJobSite, ImmutableSet.of(), ImmutableSet.of(), workSound));
@@ -44,17 +44,5 @@ public class VillagerProfessionFactory implements TypedFactory<VillagerProfessio
     @Override
     public void register() {
         VILLAGER_PROFESSIONS.register(EVENT_BUS);
-    }
-
-    public static VillagerProfessionFactory getInstance() {
-        if (instance == null) {
-            synchronized (VillagerProfessionFactory.class) {
-                if (instance == null) {
-                    instance = new VillagerProfessionFactory();
-                }
-            }
-        }
-
-        return instance;
     }
 }

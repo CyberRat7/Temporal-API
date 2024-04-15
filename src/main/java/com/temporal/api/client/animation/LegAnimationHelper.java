@@ -28,6 +28,5 @@ public class LegAnimationHelper {
                 leg4.zRot = movement1;
             }
         }
-
     }
 }
