@@ -1,15 +1,14 @@
 package com.temporal.api.core.registry.factory.common;
 
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
-import com.temporal.api.core.engine.metadata.annotation.Injected;
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
-
-import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class PaintingFactory implements TypedFactory<PaintingVariant> {
     public static final DeferredRegister<PaintingVariant> PAINTING_VARIANTS = EnginedRegisterFactory.create(Registries.PAINTING_VARIANT);
@@ -46,6 +45,6 @@ public class PaintingFactory implements TypedFactory<PaintingVariant> {
 
     @Override
     public void register() {
-        PAINTING_VARIANTS.register(EVENT_BUS);
+        PAINTING_VARIANTS.register(InjectionContext.getInstance().getObject(IEventBus.class));
     }
 }

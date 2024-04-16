@@ -9,10 +9,7 @@ import com.temporal.api.core.engine.metadata.strategy.type.ClassAnnotationStrate
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class AnnotationHelper {
     private static volatile AnnotationHelper instance;
@@ -38,7 +35,7 @@ public class AnnotationHelper {
 
     private void executeClass(ClassAnnotationStrategy strategy, Class<?> clazz, Class<? extends Annotation> annotation) {
         try {
-            if (this.isAnnotationPresent(clazz, annotation)) {
+            if (clazz.isAnnotationPresent(annotation)) {
                 strategy.execute(clazz, null);
                 ApiMod.LOGGER.info("Scanned: strategy - {}, class - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName());
             } else {
@@ -53,7 +50,7 @@ public class AnnotationHelper {
         try {
             Field[] fields = clazz.getDeclaredFields();
             for (Field field : fields) {
-                if (this.isAnnotationPresent(field, annotation)) {
+                if (field.isAnnotationPresent(annotation)) {
                     strategy.execute(field, object);
                     ApiMod.LOGGER.info("Scanned: strategy - {}, class - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName());
                     return;
@@ -75,36 +72,8 @@ public class AnnotationHelper {
         );
     }
 
-    public boolean isAnnotationPresent(Class<?> clazz, Class<? extends Annotation> annotation) {
-        if (!clazz.isAnnotationPresent(annotation)) {
-            return Arrays.stream(clazz.getAnnotations())
-                    .map(Annotation::annotationType)
-                    .anyMatch(annotationType -> annotationType.getSimpleName().equals(annotation.getSimpleName()));
-        }
-
-        return true;
-    }
-
-    public boolean isAnnotationPresent(Field field, Class<? extends Annotation> annotation) {
-        if (!field.isAnnotationPresent(annotation)) {
-            return Arrays.stream(field.getAnnotations())
-                    .map(Annotation::annotationType)
-                    .anyMatch(annotationType -> annotationType.getSimpleName().equals(annotation.getSimpleName()));
-        }
-
-        return true;
-    }
-
     public void setClasses(Set<Class<?>> classes) {
-        this.classes = classes.stream().map(clazz -> {
-            try {
-                String clazzName = clazz.getName();
-                String nameWithoutHash = clazzName.split("@")[0];
-                return Class.forName(nameWithoutHash);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }).collect(Collectors.toSet());
+        this.classes = classes;
     }
 
     public static AnnotationHelper getInstance() {

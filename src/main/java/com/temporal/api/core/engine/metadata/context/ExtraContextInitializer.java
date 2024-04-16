@@ -6,10 +6,12 @@ import com.temporal.api.core.event.tab.SimpleTabAdder;
 import com.temporal.api.core.event.trade.SimpleTradeCustomizer;
 import com.temporal.api.core.registry.factory.common.*;
 import com.temporal.api.core.tag.factory.*;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public class ExtraContextInitializer {
     public static void init() {
         Context context = InjectionContext.getInstance();
+        context.putObject(FMLJavaModLoadingContext.get().getModEventBus());
         context.putObject(new AnnotationExecutor());
 
         context.putObject(new ItemFactory());

@@ -1,17 +1,16 @@
 package com.temporal.api.core.registry.factory.common;
 
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
-import com.temporal.api.core.engine.metadata.annotation.Injected;
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
-
-import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class PotionFactory implements TypedFactory<Potion> {
     public static final DeferredRegister<Potion> POTIONS = EnginedRegisterFactory.create(Registries.POTION);
@@ -36,6 +35,6 @@ public class PotionFactory implements TypedFactory<Potion> {
 
     @Override
     public void register() {
-        POTIONS.register(EVENT_BUS);
+        POTIONS.register(InjectionContext.getInstance().getObject(IEventBus.class));
     }
 }

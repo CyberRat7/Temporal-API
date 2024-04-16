@@ -1,15 +1,14 @@
 package com.temporal.api.core.registry.factory.common;
 
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
-import com.temporal.api.core.engine.metadata.annotation.Injected;
+import com.temporal.api.core.engine.metadata.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
-
-import static com.temporal.api.core.engine.EventLayer.EVENT_BUS;
 
 public class EntityTypeFactory implements TypedFactory<EntityType<?>> {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = EnginedRegisterFactory.create(Registries.ENTITY_TYPE);
@@ -26,6 +25,6 @@ public class EntityTypeFactory implements TypedFactory<EntityType<?>> {
 
     @Override
     public void register() {
-        ENTITY_TYPES.register(EVENT_BUS);
+        ENTITY_TYPES.register(InjectionContext.getInstance().getObject(IEventBus.class));
     }
 }
