@@ -13,7 +13,7 @@ public class SimpleAnnotationScanStrategy implements AnnotationScanStrategy {
     public Set<Class<?>> scan() {
         try {
             String path = IOLayer.DEPENDENCY_INFO.getModClass().getPackageName();
-            ClassLoader classLoader = ClassLoader.getPlatformClassLoader();
+            ClassLoader classLoader = ClassLoader.getSystemClassLoader();
             Set<Class<?>> classes = ClassPath.from(classLoader)
                     .getAllClasses()
                     .stream()
