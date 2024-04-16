@@ -5,10 +5,12 @@ import com.temporal.api.core.engine.IOLayer;
 import com.temporal.api.core.engine.metadata.annotation.Dependency;
 import com.temporal.api.core.engine.metadata.annotation.Injected;
 import com.temporal.api.core.engine.metadata.annotation.Injection;
-import com.temporal.api.core.engine.metadata.context.ExtraContextInitializer;
+import com.temporal.api.core.engine.metadata.annotation.Registry;
 import com.temporal.api.core.engine.metadata.strategy.field.DependencyStrategy;
 import com.temporal.api.core.engine.metadata.strategy.field.FieldAnnotationStrategy;
 import com.temporal.api.core.engine.metadata.strategy.field.InjectionStrategy;
+import com.temporal.api.core.engine.metadata.strategy.method.MethodAnnotationStrategy;
+import com.temporal.api.core.engine.metadata.strategy.method.RegistryStrategy;
 import com.temporal.api.core.engine.metadata.strategy.scan.AnnotationScanStrategy;
 import com.temporal.api.core.engine.metadata.strategy.scan.SimpleAnnotationScanStrategy;
 import com.temporal.api.core.engine.metadata.strategy.type.ClassAnnotationStrategy;
@@ -21,12 +23,14 @@ public class AnnotationExecutor {
     private ClassAnnotationStrategy injectedStrategy;
     private FieldAnnotationStrategy injectionStrategy;
     private FieldAnnotationStrategy dependencyStrategy;
+    private MethodAnnotationStrategy registryStrategy;
 
     public AnnotationExecutor() {
         this.annotationScanStrategy = new SimpleAnnotationScanStrategy();
         this.injectedStrategy = new InjectedStrategy();
         this.injectionStrategy = new InjectionStrategy();
         this.dependencyStrategy = new DependencyStrategy();
+        this.registryStrategy = new RegistryStrategy();
     }
 
     public void execute() {
@@ -38,6 +42,7 @@ public class AnnotationExecutor {
             helper.executeStrategy(this.injectedStrategy, Injected.class);
             helper.executeStrategy(this.injectionStrategy, Injection.class);
             helper.executeStrategy(this.dependencyStrategy, Dependency.class);
+            helper.executeStrategy(this.registryStrategy, Registry.class);
         } catch (Exception e) {
             ApiMod.LOGGER.error(e.getMessage());
             throw new RuntimeException(e);
@@ -74,5 +79,13 @@ public class AnnotationExecutor {
 
     public void setDependencyStrategy(FieldAnnotationStrategy dependencyStrategy) {
         this.dependencyStrategy = dependencyStrategy;
+    }
+
+    public MethodAnnotationStrategy getRegistryStrategy() {
+        return registryStrategy;
+    }
+
+    public void setRegistryStrategy(MethodAnnotationStrategy registryStrategy) {
+        this.registryStrategy = registryStrategy;
     }
 }
