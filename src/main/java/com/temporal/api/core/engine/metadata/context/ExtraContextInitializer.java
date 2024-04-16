@@ -21,6 +21,7 @@ public class ExtraContextInitializer {
         context.putObject(new CreativeModeTabFactory());
         context.putObject(new EffectFactory());
         context.putObject(new EntityTypeFactory());
+        context.putObject(new BlockEntityTypeFactory());
         context.putObject(new PaintingFactory());
         context.putObject(new ParticleFactory());
         context.putObject(new PoiTypeFactory());
@@ -39,6 +40,5 @@ public class ExtraContextInitializer {
         context.putObject(new BowFOVModifier());
         context.putObject(new SimpleTabAdder());
         context.putObject(new SimpleTradeCustomizer());
-
     }
 }
