@@ -20,7 +20,6 @@ public class TemporalEngine {
     public static LayerContainer run(Class<?> modClass) {
         return config()
                 .setupIOLayer(modClass)
-                .setupEventLayer()
                 .processAllLayers()
                 .build();
     }
