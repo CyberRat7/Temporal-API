@@ -56,10 +56,7 @@ public class DefaultAnnotationStrategyExecutor implements AnnotationStrategyExec
             for (Field field : fields) {
                 strategy.execute(field, object);
                 ApiMod.LOGGER.info("Scanned: strategy - {}, class - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName());
-                return;
             }
-
-            throw new Exception();
         } catch (Exception e) {
             logException(e, strategy, clazz, annotation);
         }
@@ -72,10 +69,7 @@ public class DefaultAnnotationStrategyExecutor implements AnnotationStrategyExec
             for (Method method : methods) {
                 strategy.execute(method, object);
                 ApiMod.LOGGER.info("Scanned: strategy - {}, class - {}", strategy.getClass().getSimpleName(), clazz.getSimpleName());
-                return;
             }
-
-            throw new Exception();
         } catch (Exception e) {
             logException(e, strategy, clazz, annotation);
         }
