@@ -1,23 +1,33 @@
 package com.temporal.api.core.engine;
 
-import com.temporal.api.core.engine.io.DependencyInfo;
-import com.temporal.api.core.engine.io.strategy.DefaultPropertiesStrategy;
-import com.temporal.api.core.engine.io.DependencyPropertiesManager;
+import com.temporal.api.core.engine.io.context.ContextInitializer;
+import com.temporal.api.core.engine.io.context.InjectionContext;
+import com.temporal.api.core.engine.io.metadata.DefaultAnnotationExecutor;
+import com.temporal.api.core.engine.io.resource.ForgeMod;
+
+import java.util.List;
 
 public class IOLayer implements EngineLayer {
-    public static volatile DependencyInfo DEPENDENCY_INFO;
+    public static volatile ForgeMod FORGE_MOD;
     private Class<?> modClass;
+    private List<ContextInitializer> contextInitializers;
 
     @Override
     public void processAllTasks() {
-        DEPENDENCY_INFO = new DependencyInfo(new DependencyPropertiesManager(new DefaultPropertiesStrategy(), modClass));
-    }
-
-    public Class<?> getModClass() {
-        return modClass;
+        FORGE_MOD = ForgeMod.create(this.modClass);
+        contextInitializers.forEach(ContextInitializer::initialize);
+        InjectionContext.getInstance()
+                .getObjects(ContextInitializer.class)
+                .forEach(ContextInitializer::initialize);
+        InjectionContext.getInstance().getObject(DefaultAnnotationExecutor.class)
+                .execute(this.modClass);
     }
 
     public void setModClass(Class<?> modClass) {
         this.modClass = modClass;
+    }
+
+    public void setContextInitializers(List<ContextInitializer> contextInitializers) {
+        this.contextInitializers = contextInitializers;
     }
 }

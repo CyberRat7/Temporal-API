@@ -2,7 +2,7 @@ package com.temporal.api.core.registry.factory.common;
 
 import com.google.common.collect.ImmutableSet;
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
-import com.temporal.api.core.engine.metadata.context.InjectionContext;
+import com.temporal.api.core.engine.io.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.village.poi.PoiType;

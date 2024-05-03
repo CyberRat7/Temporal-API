@@ -1,6 +1,5 @@
 package com.temporal.api.core.event.tab;
 
-import com.temporal.api.core.engine.metadata.annotation.Injected;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.ItemLike;

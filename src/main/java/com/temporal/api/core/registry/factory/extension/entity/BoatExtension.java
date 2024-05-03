@@ -1,7 +1,7 @@
 package com.temporal.api.core.registry.factory.extension.entity;
 
 import com.temporal.api.client.dto.Size;
-import com.temporal.api.core.engine.metadata.context.InjectionContext;
+import com.temporal.api.core.engine.io.context.InjectionContext;
 import com.temporal.api.core.registry.factory.common.EntityTypeFactory;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;

@@ -1,6 +1,5 @@
 package com.temporal.api.core.event.trade;
 
-import com.temporal.api.core.engine.metadata.annotation.Injected;
 import com.temporal.api.core.event.trade.object.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.world.entity.npc.VillagerTrades;

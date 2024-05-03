@@ -1,6 +1,6 @@
 package com.temporal.api.core.registry.factory.extension.item;
 
-import com.temporal.api.core.engine.metadata.context.InjectionContext;
+import com.temporal.api.core.engine.io.context.InjectionContext;
 import com.temporal.api.core.registry.factory.common.ItemFactory;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Item;

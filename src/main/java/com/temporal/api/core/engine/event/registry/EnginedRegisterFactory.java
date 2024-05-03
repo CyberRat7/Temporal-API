@@ -7,6 +7,6 @@ import net.minecraftforge.registries.DeferredRegister;
 
 public class EnginedRegisterFactory {
     public static <T> DeferredRegister<T> create(ResourceKey<Registry<T>> registry) {
-        return DeferredRegister.create(registry, IOLayer.DEPENDENCY_INFO.getModId());
+        return DeferredRegister.create(registry, IOLayer.FORGE_MOD.getModId());
     }
 }

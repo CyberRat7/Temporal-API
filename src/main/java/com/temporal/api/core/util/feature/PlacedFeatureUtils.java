@@ -1,6 +1,6 @@
 package com.temporal.api.core.util.feature;
 
-import com.temporal.api.core.engine.io.EnginedResourceLocation;
+import com.temporal.api.core.engine.io.resource.InjectedResourceLocation;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PlacedFeatureUtils {
     public static ResourceKey<PlacedFeature> createKey(String name) {
-        return ResourceKey.create(Registries.PLACED_FEATURE, new EnginedResourceLocation(name));
+        return ResourceKey.create(Registries.PLACED_FEATURE, new InjectedResourceLocation(name));
     }
 
     public static void register(BootstapContext<PlacedFeature> context, ResourceKey<PlacedFeature> key, Holder<ConfiguredFeature<?, ?>> configuration, List<PlacementModifier> modifiers) {

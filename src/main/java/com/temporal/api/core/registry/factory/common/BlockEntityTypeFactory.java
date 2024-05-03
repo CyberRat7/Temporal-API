@@ -2,7 +2,7 @@ package com.temporal.api.core.registry.factory.common;
 
 import com.mojang.datafixers.types.Type;
 import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
-import com.temporal.api.core.engine.metadata.context.InjectionContext;
+import com.temporal.api.core.engine.io.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;

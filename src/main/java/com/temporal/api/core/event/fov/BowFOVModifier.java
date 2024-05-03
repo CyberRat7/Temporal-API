@@ -1,6 +1,5 @@
 package com.temporal.api.core.event.fov;
 
-import com.temporal.api.core.engine.metadata.annotation.Injected;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.event.ComputeFovModifierEvent;
 

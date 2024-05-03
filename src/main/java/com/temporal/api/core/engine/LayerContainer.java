@@ -10,7 +10,7 @@ public class LayerContainer {
 
     private LayerContainer() {
         this.addAll(List.of(
-                new IOLayer(), new EventLayer(), new MetadataLayer()
+                new IOLayer(), new EventLayer()
         ));
     }
 
