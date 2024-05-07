@@ -1,5 +1,6 @@
 package com.temporal.api.core.engine.io.context;
 
+import com.temporal.api.core.data.ApiDataGenerator;
 import com.temporal.api.core.engine.io.metadata.DefaultAnnotationExecutor;
 import com.temporal.api.core.event.fov.BowFOVModifier;
 import com.temporal.api.core.event.tab.SimpleTabAdder;
@@ -14,6 +15,8 @@ public class ExtraContextInitializer implements ContextInitializer {
         Context context = InjectionContext.getInstance();
         context.putObject(IEventBus.class, FMLJavaModLoadingContext.get().getModEventBus());
         context.putObject(new DefaultAnnotationExecutor());
+
+        context.putObject(new ApiDataGenerator());
 
         context.putObject(new ItemFactory());
         context.putObject(new BlockFactory());

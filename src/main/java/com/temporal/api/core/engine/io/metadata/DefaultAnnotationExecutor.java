@@ -2,9 +2,7 @@ package com.temporal.api.core.engine.io.metadata;
 
 import com.temporal.api.core.engine.io.IOHelper;
 import com.temporal.api.core.engine.io.metadata.annotation.*;
-import com.temporal.api.core.engine.io.metadata.strategy.field.DependencyStrategy;
-import com.temporal.api.core.engine.io.metadata.strategy.field.InjectionStrategy;
-import com.temporal.api.core.engine.io.metadata.strategy.field.RegistryStrategy;
+import com.temporal.api.core.engine.io.metadata.strategy.field.*;
 import com.temporal.api.core.engine.io.metadata.strategy.method.ExecutionStrategy;
 import com.temporal.api.core.engine.io.metadata.strategy.type.InjectedStrategy;
 
@@ -14,11 +12,13 @@ public class DefaultAnnotationExecutor implements AnnotationExecutor {
     @Override
     public void execute(Class<?> dependencyClass) {
         Set<Class<?>> classes = IOHelper.getAllClasses(dependencyClass, Injected.class);
-        AnnotationStrategyExecutor helper = DefaultAnnotationStrategyExecutor.getInstance(classes);
-        helper.executeStrategy(new InjectedStrategy(), Injected.class);
-        helper.executeStrategy(new InjectionStrategy(), Injection.class);
-        helper.executeStrategy(new DependencyStrategy(), Dependency.class);
-        helper.executeStrategy(new RegistryStrategy(), Registry.class);
-        helper.executeStrategy(new ExecutionStrategy(), Execution.class);
+        AnnotationStrategyExecutor strategyExecutor = DefaultAnnotationStrategyExecutor.getInstance(classes);
+        strategyExecutor.executeStrategy(new InjectedStrategy(), Injected.class);
+        strategyExecutor.executeStrategy(new InjectionStrategy(), Injection.class);
+        strategyExecutor.executeStrategy(new DependencyStrategy(), Dependency.class);
+        strategyExecutor.executeStrategy(new RegistryStrategy(), Registry.class);
+        strategyExecutor.executeStrategy(new ExecutionStrategy(), Execution.class);
+        strategyExecutor.executeStrategy(new BlockDataGenerationStrategy(), BlockDataGeneration.class);
+        strategyExecutor.executeStrategy(new ItemDataGenerationStrategy(), ItemDataGeneration.class);
     }
 }
