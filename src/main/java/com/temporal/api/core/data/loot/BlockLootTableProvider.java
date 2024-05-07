@@ -6,7 +6,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelfBlockLootTableProvider extends ModBlockLootTableProvider {
+public class BlockLootTableProvider extends ApiBlockLootTableProvider {
     public static final List<RegistryObject<Block>> DROPS = new ArrayList<>();
 
     @Override

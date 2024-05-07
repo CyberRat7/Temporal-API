@@ -10,7 +10,7 @@ import java.util.Set;
 public class LootTableProviderFactory {
     public static LootTableProvider createWithSelfDrop(PackOutput output) {
         return new LootTableProvider(output, Set.of(), List.of(
-                new LootTableProvider.SubProviderEntry(SelfBlockLootTableProvider::new, LootContextParamSets.BLOCK)
+                new LootTableProvider.SubProviderEntry(BlockLootTableProvider::new, LootContextParamSets.BLOCK)
         ));
     }
 }

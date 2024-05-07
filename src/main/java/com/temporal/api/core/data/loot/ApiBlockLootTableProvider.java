@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
-public abstract class ModBlockLootTableProvider extends BlockLootSubProvider {
-    protected ModBlockLootTableProvider() {
+public abstract class ApiBlockLootTableProvider extends BlockLootSubProvider {
+    protected ApiBlockLootTableProvider() {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags());
     }
 

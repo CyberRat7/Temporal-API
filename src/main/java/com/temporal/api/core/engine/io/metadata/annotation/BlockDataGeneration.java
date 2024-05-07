@@ -13,10 +13,21 @@ public @interface BlockDataGeneration {
 
     @interface Model {
         enum Type {
-            CUBED_BLOCK
+            CUBED,
+            BUTTON,
+            DOOR,
+            FENCE,
+            FENCE_GATE,
+            PRESSURE_PLATE,
+            SLAB,
+            STAIRS,
+            TRAPDOOR,
+            WALL,
+            LOG,
+            ROTATED_PILLAR
         }
 
-        Type type() default Type.CUBED_BLOCK;
+        Type type() default Type.CUBED;
     }
 
     @interface LootTable {
