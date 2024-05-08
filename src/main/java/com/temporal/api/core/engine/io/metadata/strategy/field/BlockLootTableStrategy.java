@@ -2,6 +2,9 @@ package com.temporal.api.core.engine.io.metadata.strategy.field;
 
 import com.temporal.api.core.data.loot.BlockLootTableProvider;
 import com.temporal.api.core.engine.io.metadata.annotation.BlockLootTable;
+import com.temporal.api.core.exception.NotFoundException;
+import com.temporal.api.core.registry.factory.common.ItemFactory;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -15,7 +18,20 @@ public class BlockLootTableStrategy implements FieldAnnotationStrategy {
             field.setAccessible(true);
             RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);
             BlockLootTable blockLootTable = field.getDeclaredAnnotation(BlockLootTable.class);
-            BlockLootTableProvider.DROPS.add((RegistryObject<Block>) registryObject);
+            switch (blockLootTable.type()) {
+                case SELF -> BlockLootTableProvider.SELF.add((RegistryObject<Block>) registryObject);
+                case SILK_TOUCH -> BlockLootTableProvider.SILK_TOUCH.add((RegistryObject<Block>) registryObject);
+                case POTTED_CONTENT -> BlockLootTableProvider.POTTED_CONTENT.add((RegistryObject<Block>) registryObject);
+                case OTHER -> {
+                    String otherId = blockLootTable.itemId();
+                    RegistryObject<Item> itemRegistry = ItemFactory.ITEMS.getEntries()
+                            .stream()
+                            .filter(item -> item.getId().getPath().equals(otherId))
+                            .findAny()
+                            .orElseThrow(NotFoundException::new);
+                    BlockLootTableProvider.OTHER.put((RegistryObject<Block>) registryObject, itemRegistry);
+                }
+            }
         }
     }
 }

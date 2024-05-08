@@ -15,7 +15,7 @@ public class ModBlocks {
     @Registry
     public static final SlabBlockFactory BLOCK_FACTORY = InjectionContext.getInstance().getObject(SlabBlockFactory.class);
     @BlockModel
-    @BlockLootTable
+    @BlockLootTable(type = BlockLootTable.Type.OTHER, itemId = "test_item")
     public static final RegistryObject<Block> TEST_BLOCK_1 = BLOCK_FACTORY.create("test_block_1", BlockPropertiesFactory.woolLike());
     @BlockModel
     @BlockLootTable

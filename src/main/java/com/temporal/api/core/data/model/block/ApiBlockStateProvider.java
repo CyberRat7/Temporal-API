@@ -56,10 +56,9 @@ public abstract class ApiBlockStateProvider extends BlockStateProvider {
     protected void registerSlabBlock(RegistryObject<SlabBlock> blockRegistryObject) {
         SlabBlock block = blockRegistryObject.get();
         String path = blockRegistryObject.getId().getPath();
-        ResourceLocation location = getLocation(blockRegistryObject);
-        this.slabBlock(block, new InjectedResourceLocation("block/" + StringUtils.substringBefore(path, "_slab")), location);
-        this.simpleBlockItem(block, models().slab(path, location, location, location));
-//        this.simpleBlockItem(block, models().slab(path, new InjectedResourceLocation(path), new InjectedResourceLocation(path), new InjectedResourceLocation(path)));
+        ResourceLocation texture = new InjectedResourceLocation("block/" + StringUtils.substringBefore(path, "_slab"));
+        this.slabBlock(block, texture, texture);
+        this.simpleBlockItem(block, models().slab(path, texture, texture, texture));
     }
 
     protected void registerSlabBlock(RegistryObject<SlabBlock> slabBlockRegistryObject, RegistryObject<Block> blockRegistryObject) {
