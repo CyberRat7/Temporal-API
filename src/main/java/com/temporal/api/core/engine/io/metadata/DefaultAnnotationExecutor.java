@@ -18,7 +18,9 @@ public class DefaultAnnotationExecutor implements AnnotationExecutor {
         strategyExecutor.executeStrategy(new DependencyStrategy(), Dependency.class);
         strategyExecutor.executeStrategy(new RegistryStrategy(), Registry.class);
         strategyExecutor.executeStrategy(new ExecutionStrategy(), Execution.class);
-        strategyExecutor.executeStrategy(new BlockDataGenerationStrategy(), BlockDataGeneration.class);
-        strategyExecutor.executeStrategy(new ItemDataGenerationStrategy(), ItemDataGeneration.class);
+
+        strategyExecutor.executeStrategy(new BlockModelStrategy(), BlockModel.class);
+        strategyExecutor.executeStrategy(new ItemModelStrategy(), ItemModel.class);
+        strategyExecutor.executeStrategy(new BlockLootTableStrategy(), BlockLootTable.class);
     }
 }

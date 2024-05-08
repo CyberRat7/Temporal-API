@@ -7,15 +7,11 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface ItemDataGeneration {
-    Model model() default @Model;
-
-    @interface Model {
-        enum Type {
-            SIMPLE,
-            HANDHELD
-        }
-
-        Type type() default Type.SIMPLE;
+public @interface ItemModel {
+    enum Type {
+        SIMPLE,
+        HANDHELD
     }
+
+    Type type() default Type.SIMPLE;
 }
