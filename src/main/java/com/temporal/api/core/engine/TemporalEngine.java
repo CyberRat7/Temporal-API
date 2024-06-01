@@ -22,8 +22,7 @@ public class TemporalEngine {
 
     public static LayerContainer run(Class<?> modClass) {
         return config()
-                .setupIOLayer(modClass, new ExtraContextInitializer())
-                .processAllLayers()
+                .processIOLayer(modClass, new ExtraContextInitializer())
                 .build();
     }
 
@@ -32,8 +31,8 @@ public class TemporalEngine {
     }
 
     public static class Configurator {
+        private static final String LOAD_MESSAGE = "{} has been loaded!";
         private final LayerContainer layerContainer = LayerContainer.getInstance();
-        private final String loadMessage = "{} has been loaded!";
         private final List<Runnable> tasks = new ArrayList<>(2);
 
         private Configurator() {
@@ -51,27 +50,21 @@ public class TemporalEngine {
             return this;
         }
 
-        public Configurator setupIOLayer(Class<?> modClass, ContextInitializer... contextInitializers) {
+        public Configurator processIOLayer(Class<?> modClass, ContextInitializer... contextInitializers) {
             Runnable ioSetupTask = () -> {
-                IOLayer ioLayer = (IOLayer) layerContainer.getLayer(0);
+                IOLayer ioLayer = layerContainer.getLayer(IOLayer.class);
                 ioLayer.setModClass(modClass);
                 ioLayer.setContextInitializers(List.of(contextInitializers));
+                ioLayer.processAllTasks();
+                this.logLayerProcession(ioLayer);
             };
+
             tasks.add(ioSetupTask);
             return this;
         }
 
-        public Configurator setupEventLayer() {
+        public Configurator processEventLayer() {
             //Nothing's here
-            return this;
-        }
-
-        public Configurator processAllLayers() {
-            Runnable processLayersTask = () -> layerContainer.getLayers().forEach(engineLayer -> {
-                engineLayer.processAllTasks();
-                ApiMod.LOGGER.info(this.loadMessage, engineLayer.getClass().getSimpleName());
-            });
-            tasks.add(processLayersTask);
             return this;
         }
 
@@ -79,6 +72,11 @@ public class TemporalEngine {
             System.out.println(BANNER);
             tasks.forEach(task -> new FutureTask<>(task, null).run());
             return this.layerContainer;
+        }
+
+        private void logLayerProcession(EngineLayer engineLayer) {
+            engineLayer.processAllTasks();
+            ApiMod.LOGGER.info(LOAD_MESSAGE, engineLayer.getClass().getSimpleName());
         }
     }
 }

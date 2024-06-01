@@ -10,7 +10,8 @@ public class LayerContainer {
 
     private LayerContainer() {
         this.addAll(List.of(
-                new IOLayer(), new EventLayer()
+                new IOLayer(),
+                new EventLayer()
         ));
     }
 
@@ -28,6 +29,14 @@ public class LayerContainer {
 
     public EngineLayer getLayer(Integer id) {
         return layers.get(id);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends EngineLayer> T getLayer(Class<? extends EngineLayer> layer) {
+        return (T) layers.stream()
+                .filter(iterationLayer -> iterationLayer.getClass().equals(layer))
+                .findAny()
+                .orElseThrow();
     }
 
     protected void delete(Class<? extends EngineLayer> layer) {
