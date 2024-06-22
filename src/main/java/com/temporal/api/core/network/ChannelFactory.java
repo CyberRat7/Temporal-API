@@ -6,7 +6,7 @@ import net.minecraftforge.network.event.EventNetworkChannel;
 import net.minecraftforge.network.simple.SimpleChannel;
 
 public class ChannelFactory {
-    public static SimpleChannel createSimple(String modId, String protocolVersion) {
+    public static SimpleChannel createSimple(String protocolVersion) {
         return NetworkRegistry.newSimpleChannel(
                 new InjectedResourceLocation("main"),
                 () -> protocolVersion,
@@ -15,7 +15,7 @@ public class ChannelFactory {
         );
     }
 
-    public static EventNetworkChannel createEvent(String modId, String protocolVersion) {
+    public static EventNetworkChannel createEvent(String protocolVersion) {
         return NetworkRegistry.newEventChannel(
                 new InjectedResourceLocation("main"),
                 () -> protocolVersion,
