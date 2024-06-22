@@ -1,7 +1,7 @@
 package com.temporal.api.core.engine.io.metadata.strategy.field;
 
 import com.temporal.api.common.block.LogBlock;
-import com.temporal.api.core.data.model.block.BlockStateProvider;
+import com.temporal.api.core.event.data.model.block.BlockStateProvider;
 import com.temporal.api.core.engine.io.metadata.annotation.BlockModel;
 import net.minecraft.world.level.block.*;
 import net.minecraftforge.registries.RegistryObject;

@@ -13,8 +13,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface SpawnEggExtension {
     default RegistryObject<ForgeSpawnEggItem> createSpawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> type, int backgroundColor, int foregroundColor) {
+        return this.createSpawnEgg(name, type, backgroundColor, foregroundColor, new Item.Properties());
+    }
+
+    default RegistryObject<ForgeSpawnEggItem> createSpawnEgg(String name, Supplier<? extends EntityType<? extends Mob>> type, int backgroundColor, int foregroundColor, Item.Properties properties) {
         ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
-        return (RegistryObject<ForgeSpawnEggItem>) itemFactory.createTyped(name, () -> new ForgeSpawnEggItem(type, backgroundColor, foregroundColor, new Item.Properties()));
+        return (RegistryObject<ForgeSpawnEggItem>) itemFactory.createTyped(name, () -> new ForgeSpawnEggItem(type, backgroundColor, foregroundColor, properties));
     }
 
     default RegistryObject<? extends ForgeSpawnEggItem> createSpawnEgg(String name, Supplier<? extends ForgeSpawnEggItem> tTypedSupplier) {

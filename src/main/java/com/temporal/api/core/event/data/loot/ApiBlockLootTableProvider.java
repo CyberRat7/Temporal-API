@@ -1,4 +1,4 @@
-package com.temporal.api.core.data.loot;
+package com.temporal.api.core.event.data.loot;
 
 import com.temporal.api.core.registry.factory.common.BlockFactory;
 import net.minecraft.data.loot.BlockLootSubProvider;

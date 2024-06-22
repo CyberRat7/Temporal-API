@@ -12,8 +12,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface PickaxeExtension {
     default RegistryObject<PickaxeItem> createPickaxe(String name, Tier tier, int damage, float speed) {
+        return this.createPickaxe(name, tier, damage, speed, new Item.Properties());
+    }
+
+    default RegistryObject<PickaxeItem> createPickaxe(String name, Tier tier, int damage, float speed, Item.Properties properties) {
         ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
-        return (RegistryObject<PickaxeItem>) itemFactory.createTyped(name, () -> new PickaxeItem(tier, damage, speed, new Item.Properties()));
+        return (RegistryObject<PickaxeItem>) itemFactory.createTyped(name, () -> new PickaxeItem(tier, damage, speed, properties));
     }
 
     default RegistryObject<? extends PickaxeItem> createPickaxe(String name, Supplier<? extends PickaxeItem> tTypedSupplier) {

@@ -1,6 +1,6 @@
 package com.temporal.api.core.engine.io.metadata.strategy.field;
 
-import com.temporal.api.core.data.loot.BlockLootTableProvider;
+import com.temporal.api.core.event.data.loot.BlockLootTableProvider;
 import com.temporal.api.core.engine.io.metadata.annotation.BlockLootTable;
 import com.temporal.api.core.exception.NotFoundException;
 import com.temporal.api.core.registry.factory.common.ItemFactory;

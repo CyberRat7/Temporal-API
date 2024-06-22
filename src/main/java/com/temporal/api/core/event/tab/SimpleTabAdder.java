@@ -10,12 +10,10 @@ import java.util.function.Supplier;
 public class SimpleTabAdder implements TabAdder {
     @Override
     @SafeVarargs
-    public final TabAdder addAllToTab(BuildCreativeModeTabContentsEvent event, ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
+    public final void addAllToTab(BuildCreativeModeTabContentsEvent event, ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
         for (Supplier<? extends ItemLike> registry : registries) {
             addToTab(event, tab, registry);
         }
-
-        return this;
     }
 
     @Override

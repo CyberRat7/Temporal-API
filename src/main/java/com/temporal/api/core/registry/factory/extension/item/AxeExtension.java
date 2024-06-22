@@ -12,8 +12,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface AxeExtension {
     default RegistryObject<AxeItem> createAxe(String name, Tier tier, int damage, float speed) {
+        return this.createAxe(name, tier, damage, speed, new Item.Properties());
+    }
+
+    default RegistryObject<AxeItem> createAxe(String name, Tier tier, int damage, float speed, Item.Properties properties) {
         ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
-        return (RegistryObject<AxeItem>) itemFactory.createTyped(name, () -> new AxeItem(tier, damage, speed, new Item.Properties()));
+        return (RegistryObject<AxeItem>) itemFactory.createTyped(name, () -> new AxeItem(tier, damage, speed, properties));
     }
 
     default RegistryObject<? extends AxeItem> createAxe(String name, Supplier<? extends AxeItem> tTypedSupplier) {

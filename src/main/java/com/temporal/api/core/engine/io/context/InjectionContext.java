@@ -53,6 +53,10 @@ public class InjectionContext implements Context {
         this.objects.put(key, value);
     }
 
+    public static <T> T getFromInstance(Class<? extends T> key) {
+        return InjectionContext.getInstance().getObject(key);
+    }
+
     public static InjectionContext getInstance() {
         if (instance == null) {
             synchronized (InjectionContext.class) {

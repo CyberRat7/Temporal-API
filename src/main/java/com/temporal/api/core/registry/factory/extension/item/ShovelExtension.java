@@ -12,8 +12,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface ShovelExtension {
     default RegistryObject<ShovelItem> createShovel(String name, Tier tier, int damage, float speed) {
+        return this.createShovel(name, tier, damage, speed, new Item.Properties());
+    }
+
+    default RegistryObject<ShovelItem> createShovel(String name, Tier tier, int damage, float speed, Item.Properties properties) {
         ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
-        return (RegistryObject<ShovelItem>) itemFactory.createTyped(name, () -> new ShovelItem(tier, damage, speed, new Item.Properties()));
+        return (RegistryObject<ShovelItem>) itemFactory.createTyped(name, () -> new ShovelItem(tier, damage, speed, properties));
     }
 
     default RegistryObject<? extends ShovelItem> createShovel(String name, Supplier<? extends ShovelItem> tTypedSupplier) {

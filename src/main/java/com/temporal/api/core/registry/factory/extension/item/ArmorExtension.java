@@ -13,8 +13,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface ArmorExtension {
     default RegistryObject<ArmorItem> createArmor(String name, ArmorMaterial material, ArmorItem.Type type) {
+        return this.createArmor(name, material, type, new Item.Properties());
+    }
+
+    default RegistryObject<ArmorItem> createArmor(String name, ArmorMaterial material, ArmorItem.Type type, Item.Properties properties) {
         ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
-        return (RegistryObject<ArmorItem>) itemFactory.createTyped(name, () -> new ArmorItem(material, type, new Item.Properties()));
+        return (RegistryObject<ArmorItem>) itemFactory.createTyped(name, () -> new ArmorItem(material, type, properties));
     }
 
     default RegistryObject<? extends ArmorItem> createArmor(String name, Supplier<? extends ArrowItem> tTypedSupplier) {

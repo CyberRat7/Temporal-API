@@ -1,8 +1,8 @@
-package com.temporal.api.core.data;
+package com.temporal.api.core.event.data;
 
-import com.temporal.api.core.data.loot.LootTableProviderFactory;
-import com.temporal.api.core.data.model.block.BlockStateProvider;
-import com.temporal.api.core.data.model.item.ItemModelProvider;
+import com.temporal.api.core.event.data.loot.LootTableProviderFactory;
+import com.temporal.api.core.event.data.model.block.BlockStateProvider;
+import com.temporal.api.core.event.data.model.item.ItemModelProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;

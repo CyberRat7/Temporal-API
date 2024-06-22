@@ -1,4 +1,4 @@
-package com.temporal.api.core.data.model.block;
+package com.temporal.api.core.event.data.model.block;
 
 import com.temporal.api.common.block.LogBlock;
 import com.temporal.api.core.engine.IOLayer;

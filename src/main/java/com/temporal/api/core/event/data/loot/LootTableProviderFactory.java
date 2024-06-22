@@ -1,4 +1,4 @@
-package com.temporal.api.core.data.loot;
+package com.temporal.api.core.event.data.loot;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;

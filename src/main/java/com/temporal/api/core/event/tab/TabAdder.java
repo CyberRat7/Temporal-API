@@ -8,7 +8,7 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import java.util.function.Supplier;
 
 public interface TabAdder {
-    TabAdder addAllToTab(BuildCreativeModeTabContentsEvent event, ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries);
+    void addAllToTab(BuildCreativeModeTabContentsEvent event, ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries);
 
     void addToTab(BuildCreativeModeTabContentsEvent event, ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike> registryObject);
 }

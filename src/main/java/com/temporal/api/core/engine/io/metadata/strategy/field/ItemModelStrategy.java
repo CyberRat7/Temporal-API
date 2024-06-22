@@ -1,6 +1,6 @@
 package com.temporal.api.core.engine.io.metadata.strategy.field;
 
-import com.temporal.api.core.data.model.item.ItemModelProvider;
+import com.temporal.api.core.event.data.model.item.ItemModelProvider;
 import com.temporal.api.core.engine.io.metadata.annotation.ItemModel;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.RegistryObject;

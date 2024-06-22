@@ -1,4 +1,4 @@
-package com.temporal.api.core.data;
+package com.temporal.api.core.event.data;
 
 import net.minecraftforge.data.event.GatherDataEvent;
 

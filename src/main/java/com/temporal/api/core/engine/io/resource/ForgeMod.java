@@ -1,5 +1,6 @@
 package com.temporal.api.core.engine.io.resource;
 
+import com.google.common.base.MoreObjects;
 import net.minecraftforge.fml.common.Mod;
 
 public class ForgeMod {
@@ -39,5 +40,14 @@ public class ForgeMod {
 
     public void setModId(String modId) {
         this.modId = modId;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("clazz", clazz)
+                .add("modId", modId)
+                .toString();
     }
 }

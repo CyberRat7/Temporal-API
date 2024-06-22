@@ -1,4 +1,4 @@
-package com.temporal.api.core.data.model.item;
+package com.temporal.api.core.event.data.model.item;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;

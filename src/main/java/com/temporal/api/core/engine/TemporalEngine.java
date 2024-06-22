@@ -6,7 +6,6 @@ import com.temporal.api.core.engine.io.context.ExtraContextInitializer;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.FutureTask;
 
 public class TemporalEngine {
     private static final String BANNER = """
@@ -22,6 +21,7 @@ public class TemporalEngine {
 
     public static LayerContainer run(Class<?> modClass) {
         return config()
+                .addLayer(new IOLayer())
                 .processIOLayer(modClass, new ExtraContextInitializer())
                 .build();
     }
@@ -33,25 +33,23 @@ public class TemporalEngine {
     public static class Configurator {
         private static final String LOAD_MESSAGE = "{} has been loaded!";
         private final LayerContainer layerContainer = LayerContainer.getInstance();
-        private final List<Runnable> tasks = new ArrayList<>(2);
+        private final List<Task> tasks = new ArrayList<>(2);
 
         private Configurator() {
         }
 
         public Configurator addLayer(EngineLayer engineLayer) {
-            Runnable addLayerTask = () -> layerContainer.add(engineLayer);
-            tasks.add(addLayerTask);
+            tasks.add(() -> layerContainer.add(engineLayer));
             return this;
         }
 
         public Configurator disableLayer(Class<? extends EngineLayer> engineLayerClass) {
-            Runnable deleteLayerTask = () -> layerContainer.delete(engineLayerClass);
-            tasks.add(deleteLayerTask);
+            tasks.add(() -> layerContainer.delete(engineLayerClass));
             return this;
         }
 
         public Configurator processIOLayer(Class<?> modClass, ContextInitializer... contextInitializers) {
-            Runnable ioSetupTask = () -> {
+            Task ioSetupTask = () -> {
                 IOLayer ioLayer = layerContainer.getLayer(IOLayer.class);
                 ioLayer.setModClass(modClass);
                 ioLayer.setContextInitializers(List.of(contextInitializers));
@@ -63,14 +61,10 @@ public class TemporalEngine {
             return this;
         }
 
-        public Configurator processEventLayer() {
-            //Nothing's here
-            return this;
-        }
-
         public LayerContainer build() {
             System.out.println(BANNER);
-            tasks.forEach(task -> new FutureTask<>(task, null).run());
+            tasks.forEach(Task::execute);
+            ApiMod.LOGGER.info("Mod: {} has been registered as a TemporalEngine component!", IOLayer.FORGE_MOD);
             return this.layerContainer;
         }
 
@@ -78,5 +72,10 @@ public class TemporalEngine {
             engineLayer.processAllTasks();
             ApiMod.LOGGER.info(LOAD_MESSAGE, engineLayer.getClass().getSimpleName());
         }
+    }
+
+    @FunctionalInterface
+    public interface Task {
+        void execute();
     }
 }

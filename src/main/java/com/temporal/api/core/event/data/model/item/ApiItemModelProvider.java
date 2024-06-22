@@ -1,4 +1,4 @@
-package com.temporal.api.core.data.model.item;
+package com.temporal.api.core.event.data.model.item;
 
 import com.temporal.api.core.engine.IOLayer;
 import com.temporal.api.core.engine.io.resource.InjectedResourceLocation;

@@ -13,8 +13,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface MusicDiscExtension {
     default RegistryObject<RecordItem> createMusicDisc(String name, int comparatorValue, Supplier<SoundEvent> soundEvent, int lengthInTicks) {
+        return this.createMusicDisc(name, comparatorValue, soundEvent, lengthInTicks, new Item.Properties());
+    }
+
+    default RegistryObject<RecordItem> createMusicDisc(String name, int comparatorValue, Supplier<SoundEvent> soundEvent, int lengthInTicks, Item.Properties properties) {
         ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
-        return (RegistryObject<RecordItem>) itemFactory.createTyped(name, () -> new RecordItem(comparatorValue, soundEvent, new Item.Properties().stacksTo(1).rarity(Rarity.RARE), lengthInTicks));
+        return (RegistryObject<RecordItem>) itemFactory.createTyped(name, () -> new RecordItem(comparatorValue, soundEvent, properties.stacksTo(1).rarity(Rarity.RARE), lengthInTicks));
     }
 
     default RegistryObject<? extends RecordItem> createMusicDisc(String name, Supplier<? extends RecordItem> tTypedSupplier) {

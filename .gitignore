@@ -23,3 +23,8 @@ run
 
 # Files from Forge MDK
 forge*changelog.txt
+
+run-data
+src/generated
+src/main/java/com/temporal/api/test
+src/main/resources/assets/temporalapi

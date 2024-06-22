@@ -12,8 +12,12 @@ import java.util.function.Supplier;
 @SuppressWarnings("unchecked")
 public interface HoeExtension {
     default RegistryObject<HoeItem> createHoe(String name, Tier tier, int damage, float speed) {
+        return this.createHoe(name, tier, damage, speed, new Item.Properties());
+    }
+
+    default RegistryObject<HoeItem> createHoe(String name, Tier tier, int damage, float speed, Item.Properties properties) {
         ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
-        return (RegistryObject<HoeItem>) itemFactory.createTyped(name, () -> new HoeItem(tier, damage, speed, new Item.Properties()));
+        return (RegistryObject<HoeItem>) itemFactory.createTyped(name, () -> new HoeItem(tier, damage, speed, properties));
     }
 
     default RegistryObject<? extends HoeItem> createHoe(String name, Supplier<? extends HoeItem> tTypedSupplier) {

@@ -6,13 +6,10 @@ import java.util.List;
 
 public class LayerContainer {
     private static volatile LayerContainer instance;
-    private final List<EngineLayer> layers = new ArrayList<>();
+    private final List<EngineLayer> layers;
 
     private LayerContainer() {
-        this.addAll(List.of(
-                new IOLayer(),
-                new EventLayer()
-        ));
+        this.layers = new ArrayList<>();
     }
 
     protected void addAll(Collection<EngineLayer> engineLayers) {
