@@ -53,7 +53,6 @@ public class TemporalEngine {
                 IOLayer ioLayer = layerContainer.getLayer(IOLayer.class);
                 ioLayer.setModClass(modClass);
                 ioLayer.setContextInitializers(List.of(contextInitializers));
-                ioLayer.processAllTasks();
                 this.logLayerProcession(ioLayer);
             };
 
