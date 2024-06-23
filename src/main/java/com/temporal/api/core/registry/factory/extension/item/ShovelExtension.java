@@ -11,11 +11,11 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public interface ShovelExtension {
-    default RegistryObject<ShovelItem> createShovel(String name, Tier tier, int damage, float speed) {
+    default RegistryObject<ShovelItem> createShovel(String name, Tier tier, float damage, float speed) {
         return this.createShovel(name, tier, damage, speed, new Item.Properties());
     }
 
-    default RegistryObject<ShovelItem> createShovel(String name, Tier tier, int damage, float speed, Item.Properties properties) {
+    default RegistryObject<ShovelItem> createShovel(String name, Tier tier, float damage, float speed, Item.Properties properties) {
         ItemFactory itemFactory = InjectionContext.getInstance().getObject(ItemFactory.class);
         return (RegistryObject<ShovelItem>) itemFactory.createTyped(name, () -> new ShovelItem(tier, damage, speed, properties));
     }
