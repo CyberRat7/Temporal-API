@@ -1,4 +1,4 @@
-package com.temporal.api.core.network;
+package com.temporal.api.core.util.network;
 
 import com.temporal.api.core.engine.io.resource.InjectedResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;

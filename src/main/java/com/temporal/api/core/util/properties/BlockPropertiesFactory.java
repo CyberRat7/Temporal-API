@@ -1,4 +1,4 @@
-package com.temporal.api.core.registry.properties;
+package com.temporal.api.core.util.properties;
 
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
