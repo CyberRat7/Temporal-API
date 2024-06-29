@@ -1,5 +1,6 @@
 package com.temporal.api.core.event.tab;
 
+import com.temporal.api.ApiMod;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.ItemLike;
@@ -7,7 +8,7 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
 import java.util.function.Supplier;
 
-public class SimpleTabDirector {
+public class SimpleTabDirector implements TabDirector {
     private final TabAdder tabAdder;
     private final BuildCreativeModeTabContentsEvent event;
 
@@ -21,8 +22,13 @@ public class SimpleTabDirector {
     }
 
     @SafeVarargs
-    public final SimpleTabDirector addToTab(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
-        this.tabAdder.addAllToTab(this.event, tab, registries);
+    public final TabDirector direct(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
+        try {
+            this.tabAdder.addAllToTab(this.event, tab, registries);
+        } catch (Exception e) {
+            ApiMod.LOGGER.error("Tab adding gone wrong!", e);
+        }
+
         return this;
     }
 }
