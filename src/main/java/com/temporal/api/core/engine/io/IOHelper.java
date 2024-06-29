@@ -5,10 +5,40 @@ import net.minecraftforge.forgespi.language.ModFileScanData;
 import org.objectweb.asm.Type;
 
 import java.lang.annotation.Annotation;
-import java.util.Set;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class IOHelper {
+    public static <T> T createNullObject(Class<? extends T> clazz) {
+        try {
+            Constructor<?>[] constructors = clazz.getConstructors();
+            Arrays.sort(constructors, Comparator.comparingInt(Constructor::getParameterCount));
+            Constructor<?> constructor = constructors[0];
+            int parameterCount = constructor.getParameterCount();
+            if (parameterCount == 0) {
+                return (T) constructor.newInstance();
+            } else {
+                Object[] nulls = new Object[parameterCount];
+                Arrays.fill(nulls, null);
+                return (T) constructor.newInstance(nulls);
+            }
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Object getInstanceFromClassName(String name, Class<?> dependencyClass, Class<?>[] argumentTypes, Object... arguments) {
+        try {
+            Class<?> clazz = forName(name, dependencyClass);
+            Constructor<?> constructor = clazz.getDeclaredConstructor(argumentTypes);
+            return constructor.newInstance(arguments);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Set<Class<?>> getAllClasses(Class<?> dependencyClass, Class<? extends Annotation> annotationClass) {
         return ModList.get()
                 .getAllScanData()
