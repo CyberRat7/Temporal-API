@@ -2,7 +2,7 @@ package com.temporal.api.core.engine.io.metadata.strategy.field;
 
 import com.temporal.api.core.event.data.loot.BlockLootTableProvider;
 import com.temporal.api.core.engine.io.metadata.annotation.BlockLootTable;
-import com.temporal.api.core.exception.NotFoundException;
+import com.temporal.api.core.util.exception.NotFoundException;
 import com.temporal.api.core.registry.factory.common.ItemFactory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
