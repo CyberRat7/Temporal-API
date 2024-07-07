@@ -54,12 +54,14 @@ public class DefaultAnnotationExecutor implements AnnotationExecutor {
     @Override
     public void executeDataGenerationAnnotations() {
         final FieldAnnotationStrategy blockModelStrategy = new BlockModelStrategy();
-        final FieldAnnotationStrategy blockLootTableStrategy = new BlockLootTableStrategy();
         final FieldAnnotationStrategy itemModelStrategy = new ItemModelStrategy();
+        final FieldAnnotationStrategy blockLootTableStrategy = new BlockLootTableStrategy();
+        final FieldAnnotationStrategy recipeStrategy = new RecipeStrategy();
         this.classes.forEach(clazz -> {
             strategyExecutor.executeStaticField(blockModelStrategy, clazz);
             strategyExecutor.executeStaticField(itemModelStrategy, clazz);
             strategyExecutor.executeStaticField(blockLootTableStrategy, clazz);
+            strategyExecutor.executeStaticField(recipeStrategy, clazz);
         });
     }
 }
