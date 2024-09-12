@@ -1,4 +1,4 @@
-package com.temporal.api.common.other;
+package com.temporal.api.common.armor;
 
 import com.temporal.api.core.engine.IOLayer;
 import net.minecraft.Util;
