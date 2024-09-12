@@ -8,7 +8,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraftforge.registries.RegistryObject;
 
-public interface ProjectileExtension {
+public interface ThrowableProjectileExtension {
     default <T extends ThrowableProjectile> RegistryObject<EntityType<?>> createProjectile(String name, Size size, EntityType.EntityFactory<T> entityFactory) {
         EntityTypeFactory factory = InjectionContext.getInstance().getObject(EntityTypeFactory.class);
         return factory.create(name, entityFactory, size, MobCategory.MISC);
