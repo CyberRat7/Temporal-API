@@ -26,6 +26,7 @@ public class ExtraContextInitializer implements ContextInitializer {
         context.putObject(new ParticleFactory());
         context.putObject(new PoiTypeFactory());
         context.putObject(new PotionFactory());
+        context.putObject(new RecipeSerializerFactory());
         context.putObject(new SoundEventFactory());
         context.putObject(new VillagerProfessionFactory());
 
