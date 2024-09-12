@@ -8,4 +8,6 @@ import java.util.function.Supplier;
 
 public interface TabDirector {
     TabDirector direct(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries);
+
+    TabDirector direct(boolean condition, ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries);
 }

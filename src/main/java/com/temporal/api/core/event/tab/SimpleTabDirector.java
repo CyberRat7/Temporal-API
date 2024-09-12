@@ -23,10 +23,19 @@ public class SimpleTabDirector implements TabDirector {
 
     @SafeVarargs
     public final TabDirector direct(ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
-        try {
-            this.tabAdder.addAllToTab(this.event, tab, registries);
-        } catch (Exception e) {
-            ApiMod.LOGGER.error("Tab adding gone wrong!", e);
+        return this.direct(true, tab, registries);
+    }
+
+    @Override
+    public TabDirector direct(boolean condition, ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
+        if (condition) {
+            try {
+                this.tabAdder.addAllToTab(this.event, tab, registries);
+            } catch (Exception e) {
+                ApiMod.LOGGER.error("Tab adding gone wrong!", e);
+            }
+        } else {
+            ApiMod.LOGGER.info("Tab adding hasn't been processed, because condition: false");
         }
 
         return this;
