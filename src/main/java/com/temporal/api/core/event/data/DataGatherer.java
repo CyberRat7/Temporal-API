@@ -13,6 +13,8 @@ public interface DataGatherer {
 
     void addModelProvider(GatherDataEvent event);
 
+    void addLanguageProvider(GatherDataEvent event);
+
     void addRecipeProvider(GatherDataEvent event);
 
     ExistingFileHelper getExistingFileHelper(GatherDataEvent event);

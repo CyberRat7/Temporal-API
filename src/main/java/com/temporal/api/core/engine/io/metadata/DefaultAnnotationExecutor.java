@@ -9,6 +9,7 @@ import com.temporal.api.core.engine.io.metadata.strategy.type.ClassAnnotationStr
 import com.temporal.api.core.engine.io.metadata.strategy.type.InjectedStrategy;
 import com.temporal.api.core.engine.io.metadata.strategy.type.RegistryClassStrategy;
 
+import java.util.List;
 import java.util.Set;
 
 public class DefaultAnnotationExecutor implements AnnotationExecutor {
@@ -23,45 +24,44 @@ public class DefaultAnnotationExecutor implements AnnotationExecutor {
 
     @Override
     public void executeClassAnnotations() {
-        final ClassAnnotationStrategy injectedStrategy = new InjectedStrategy();
-        final ClassAnnotationStrategy registryClassStrategy = new RegistryClassStrategy();
-        this.classes.forEach(clazz -> {
-            this.strategyExecutor.executeClass(injectedStrategy, clazz);
-            this.strategyExecutor.executeClass(registryClassStrategy, clazz);
-        });
+        List<ClassAnnotationStrategy> strategies = List.of(
+                new InjectedStrategy(),
+                new RegistryClassStrategy()
+        );
+
+        this.classes.forEach(clazz -> strategies.forEach(strategy -> strategyExecutor.executeClass(strategy, clazz)));
     }
 
     @Override
     public void executeFieldAnnotations() {
-        final FieldAnnotationStrategy injectionStrategy = new InjectionStrategy();
-        final FieldAnnotationStrategy dependencyStrategy = new DependencyStrategy();
-        final FieldAnnotationStrategy registryFieldStrategy = new RegistryFieldStrategy();
-        this.classes.forEach(clazz -> {
-            strategyExecutor.executeField(injectionStrategy, clazz);
-            strategyExecutor.executeField(dependencyStrategy, clazz);
-            strategyExecutor.executeField(registryFieldStrategy, clazz);
-        });
+        final List<FieldAnnotationStrategy> strategies = List.of(
+                new InjectionStrategy(),
+                new DependencyStrategy(),
+                new RegistryFieldStrategy()
+        );
+
+        this.classes.forEach(clazz -> strategies.forEach(strategy -> strategyExecutor.executeField(strategy, clazz)));
     }
 
     @Override
     public void executeMethodAnnotations() {
-        final MethodAnnotationStrategy executionStrategy = new ExecutionStrategy();
-        this.classes.forEach(clazz -> {
-            strategyExecutor.executeMethod(executionStrategy, clazz);
-        });
+        final List<MethodAnnotationStrategy> strategies = List.of(
+                new ExecutionStrategy()
+        );
+
+        this.classes.forEach(clazz -> strategies.forEach(strategy -> strategyExecutor.executeMethod(strategy, clazz)));
     }
 
     @Override
     public void executeDataGenerationAnnotations() {
-        final FieldAnnotationStrategy blockModelStrategy = new BlockModelStrategy();
-        final FieldAnnotationStrategy itemModelStrategy = new ItemModelStrategy();
-        final FieldAnnotationStrategy blockLootTableStrategy = new BlockLootTableStrategy();
-        final FieldAnnotationStrategy recipeStrategy = new RecipeStrategy();
-        this.classes.forEach(clazz -> {
-            strategyExecutor.executeStaticField(blockModelStrategy, clazz);
-            strategyExecutor.executeStaticField(itemModelStrategy, clazz);
-            strategyExecutor.executeStaticField(blockLootTableStrategy, clazz);
-            strategyExecutor.executeStaticField(recipeStrategy, clazz);
-        });
+        final List<FieldAnnotationStrategy> strategies = List.of(
+                new BlockModelStrategy(),
+                new ItemModelStrategy(),
+                new BlockLootTableStrategy(),
+                new TranslationStrategy(),
+                new RecipeStrategy()
+        );
+
+        this.classes.forEach(clazz -> strategies.forEach(strategy -> strategyExecutor.executeStaticField(strategy, clazz)));
     }
 }

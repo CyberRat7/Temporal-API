@@ -1,5 +1,6 @@
 package com.temporal.api.core.event.data;
 
+import com.temporal.api.core.event.data.language.ApiLanguageProvider;
 import com.temporal.api.core.event.data.loot.LootTableProviderFactory;
 import com.temporal.api.core.event.data.model.block.BlockStateProvider;
 import com.temporal.api.core.event.data.model.item.ItemModelProvider;
@@ -15,6 +16,7 @@ public class ApiDataGenerator implements DataGatherer {
     public void gatherData(GatherDataEvent event) {
         addLootTableProvider(event);
         addModelProvider(event);
+        addLanguageProvider(event);
         addRecipeProvider(event);
     }
 
@@ -32,6 +34,13 @@ public class ApiDataGenerator implements DataGatherer {
         final ExistingFileHelper existingFileHelper = getExistingFileHelper(event);
         generator.addProvider(event.includeClient(), new BlockStateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new ItemModelProvider(packOutput, existingFileHelper));
+    }
+
+    @Override
+    public void addLanguageProvider(GatherDataEvent event) {
+        final DataGenerator generator = getDataGenerator(event);
+        final PackOutput packOutput = getPackOutput(event);
+        generator.addProvider(event.includeClient(), new ApiLanguageProvider(packOutput));
     }
 
     @Override
