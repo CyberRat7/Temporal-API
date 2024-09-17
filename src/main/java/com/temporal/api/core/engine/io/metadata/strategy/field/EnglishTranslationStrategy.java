@@ -17,12 +17,15 @@ public class EnglishTranslationStrategy implements FieldAnnotationStrategy {
     public void execute(Field field, Object object) throws Exception {
         if (field.isAnnotationPresent(EnglishTranslation.class)) {
             field.setAccessible(true);
+            RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);
             EnglishTranslation translation = field.getDeclaredAnnotation(EnglishTranslation.class);
-            if (!translation.id().isBlank()) {
-                EnglishProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
-            } else {
-                RegistryObject<? extends Item> registryObject = (RegistryObject<? extends Item>) field.get(object);
-                EnglishProvider.ITEM_TRANSLATIONS.put(registryObject, translation.value());
+            switch (translation.type()) {
+                case OTHER -> EnglishProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
+                case ITEM -> EnglishProvider.ITEM_TRANSLATIONS.put((RegistryObject<? extends Item>) registryObject, translation.value());
+                case BLOCK -> EnglishProvider.BLOCK_TRANSLATIONS.put((RegistryObject<? extends Block>) registryObject, translation.value());
+                case ENTITY -> EnglishProvider.ENTITY_TRANSLATIONS.put((RegistryObject<? extends EntityType<?>>) registryObject, translation.value());
+                case EFFECT -> EnglishProvider.EFFECT_TRANSLATIONS.put((RegistryObject<? extends MobEffect>) registryObject, translation.value());
+                case ENCHANTMENT -> EnglishProvider.ENCHANTMENT_TRANSLATIONS.put((RegistryObject<? extends Enchantment>) registryObject, translation.value());
             }
         }
     }

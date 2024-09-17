@@ -1,7 +1,6 @@
 package com.temporal.api.core.engine.io.metadata.strategy.field;
 
 import com.temporal.api.core.engine.io.metadata.annotation.SpanishTranslation;
-import com.temporal.api.core.event.data.language.EnglishProvider;
 import com.temporal.api.core.event.data.language.SpanishProvider;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
@@ -18,12 +17,15 @@ public class SpanishTranslationStrategy implements FieldAnnotationStrategy {
     public void execute(Field field, Object object) throws Exception {
         if (field.isAnnotationPresent(SpanishTranslation.class)) {
             field.setAccessible(true);
+            RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);
             SpanishTranslation translation = field.getDeclaredAnnotation(SpanishTranslation.class);
-            if (!translation.id().isBlank()) {
-                SpanishProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
-            } else {
-                RegistryObject<? extends Item> registryObject = (RegistryObject<? extends Item>) field.get(object);
-                SpanishProvider.ITEM_TRANSLATIONS.put(registryObject, translation.value());
+            switch (translation.type()) {
+                case OTHER -> SpanishProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
+                case ITEM -> SpanishProvider.ITEM_TRANSLATIONS.put((RegistryObject<? extends Item>) registryObject, translation.value());
+                case BLOCK -> SpanishProvider.BLOCK_TRANSLATIONS.put((RegistryObject<? extends Block>) registryObject, translation.value());
+                case ENTITY -> SpanishProvider.ENTITY_TRANSLATIONS.put((RegistryObject<? extends EntityType<?>>) registryObject, translation.value());
+                case EFFECT -> SpanishProvider.EFFECT_TRANSLATIONS.put((RegistryObject<? extends MobEffect>) registryObject, translation.value());
+                case ENCHANTMENT -> SpanishProvider.ENCHANTMENT_TRANSLATIONS.put((RegistryObject<? extends Enchantment>) registryObject, translation.value());
             }
         }
     }

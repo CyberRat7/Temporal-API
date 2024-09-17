@@ -8,6 +8,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface FrenchTranslation {
+    TranslationType type() default TranslationType.OTHER;
     String id() default "";
     String value();
 }
