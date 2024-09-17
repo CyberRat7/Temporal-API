@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public abstract class ApiLanguageProvider extends LanguageProvider {
     public ApiLanguageProvider(PackOutput output, String locale) {
@@ -18,23 +19,23 @@ public abstract class ApiLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        this.getItemTranslations().forEach(this::add);
-        this.getBlockTranslations().forEach(this::add);
-        this.getEntityTranslations().forEach(this::add);
-        this.getEffectTranslations().forEach(this::add);
-        this.getEnchantmentTranslations().forEach(this::add);
+        this.getItemTranslations().forEach(this::addItem);
+        this.getBlockTranslations().forEach(this::addBlock);
+        this.getEntityTranslations().forEach(this::addEntityType);
+        this.getEffectTranslations().forEach(this::addEffect);
+        this.getEnchantmentTranslations().forEach(this::addEnchantment);
         this.getOtherTranslations().forEach(this::add);
     }
 
-    public abstract Map<Item, String> getItemTranslations();
+    public abstract Map<Supplier<? extends Item>, String> getItemTranslations();
 
-    public abstract Map<Block, String> getBlockTranslations();
+    public abstract Map<Supplier<? extends Block>, String> getBlockTranslations();
 
-    public abstract Map<EntityType<?>, String> getEntityTranslations();
+    public abstract Map<Supplier<? extends EntityType<?>>, String> getEntityTranslations();
 
-    public abstract Map<MobEffect, String> getEffectTranslations();
+    public abstract Map<Supplier<? extends MobEffect>, String> getEffectTranslations();
 
-    public abstract Map<Enchantment, String> getEnchantmentTranslations();
+    public abstract Map<Supplier<? extends Enchantment>, String> getEnchantmentTranslations();
 
     public abstract Map<String, String> getOtherTranslations();
 }

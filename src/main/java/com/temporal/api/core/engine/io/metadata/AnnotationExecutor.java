@@ -7,6 +7,7 @@ public interface AnnotationExecutor {
         try {
             prepareBeforeExecution(dependencyClass);
             executeClassAnnotations();
+            executeStaticFieldAnnotations();
             executeFieldAnnotations();
             executeMethodAnnotations();
             executeDataGenerationAnnotations();
@@ -18,6 +19,8 @@ public interface AnnotationExecutor {
     void prepareBeforeExecution(Class<?> dependencyClass);
 
     void executeClassAnnotations();
+
+    void executeStaticFieldAnnotations();
 
     void executeFieldAnnotations();
 

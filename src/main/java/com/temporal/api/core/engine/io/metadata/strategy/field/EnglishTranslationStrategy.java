@@ -11,6 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.lang.reflect.Field;
 
+@SuppressWarnings("unchecked")
 public class EnglishTranslationStrategy implements FieldAnnotationStrategy {
     @Override
     public void execute(Field field, Object object) throws Exception {
@@ -20,19 +21,8 @@ public class EnglishTranslationStrategy implements FieldAnnotationStrategy {
             if (!translation.id().isBlank()) {
                 EnglishProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
             } else {
-                RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);
-                Object capturedObject = registryObject.get();
-                if (capturedObject instanceof Item item) {
-                    EnglishProvider.ITEM_TRANSLATIONS.put(item, translation.value());
-                } else if (capturedObject instanceof Block block) {
-                    EnglishProvider.BLOCK_TRANSLATIONS.put(block, translation.value());
-                } else if (capturedObject instanceof EntityType<?> entityType) {
-                    EnglishProvider.ENTITY_TRANSLATIONS.put(entityType, translation.value());
-                } else if (capturedObject instanceof MobEffect mobEffect) {
-                    EnglishProvider.EFFECT_TRANSLATIONS.put(mobEffect, translation.value());
-                } else if (capturedObject instanceof Enchantment enchantment) {
-                    EnglishProvider.ENCHANTMENT_TRANSLATIONS.put(enchantment, translation.value());
-                }
+                RegistryObject<? extends Item> registryObject = (RegistryObject<? extends Item>) field.get(object);
+                EnglishProvider.ITEM_TRANSLATIONS.put(registryObject, translation.value());
             }
         }
     }

@@ -33,11 +33,19 @@ public class DefaultAnnotationExecutor implements AnnotationExecutor {
     }
 
     @Override
+    public void executeStaticFieldAnnotations() {
+        final List<FieldAnnotationStrategy> strategies = List.of(
+                new RegistryFieldStrategy()
+        );
+
+        this.classes.forEach(clazz -> strategies.forEach(strategy -> strategyExecutor.executeStaticField(strategy, clazz)));
+    }
+
+    @Override
     public void executeFieldAnnotations() {
         final List<FieldAnnotationStrategy> strategies = List.of(
                 new InjectionStrategy(),
-                new DependencyStrategy(),
-                new RegistryFieldStrategy()
+                new DependencyStrategy()
         );
 
         this.classes.forEach(clazz -> strategies.forEach(strategy -> strategyExecutor.executeField(strategy, clazz)));

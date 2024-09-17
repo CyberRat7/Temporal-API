@@ -9,41 +9,42 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class PolishProvider extends ApiLanguageProvider {
-    public static final Map<Item, String> ITEM_TRANSLATIONS = new HashMap<>();
-    public static final Map<Block, String> BLOCK_TRANSLATIONS = new HashMap<>();
-    public static final Map<EntityType<?>, String> ENTITY_TRANSLATIONS = new HashMap<>();
-    public static final Map<MobEffect, String> EFFECT_TRANSLATIONS = new HashMap<>();
-    public static final Map<Enchantment, String> ENCHANTMENT_TRANSLATIONS = new HashMap<>();
+    public static final Map<Supplier<? extends Item>, String> ITEM_TRANSLATIONS = new HashMap<>();
+    public static final Map<Supplier<? extends Block>, String> BLOCK_TRANSLATIONS = new HashMap<>();
+    public static final Map<Supplier<? extends EntityType<?>>, String> ENTITY_TRANSLATIONS = new HashMap<>();
+    public static final Map<Supplier<? extends MobEffect>, String> EFFECT_TRANSLATIONS = new HashMap<>();
+    public static final Map<Supplier<? extends Enchantment>, String> ENCHANTMENT_TRANSLATIONS = new HashMap<>();
     public static final Map<String, String> OTHER_TRANSLATIONS = new HashMap<>();
 
     public PolishProvider(PackOutput output) {
-        super(output, "pl-pl");
+        super(output, "pl_pl");
     }
 
     @Override
-    public Map<Item, String> getItemTranslations() {
+    public Map<Supplier<? extends Item>, String> getItemTranslations() {
         return ITEM_TRANSLATIONS;
     }
 
     @Override
-    public Map<Block, String> getBlockTranslations() {
+    public Map<Supplier<? extends Block>, String> getBlockTranslations() {
         return BLOCK_TRANSLATIONS;
     }
 
     @Override
-    public Map<EntityType<?>, String> getEntityTranslations() {
+    public Map<Supplier<? extends EntityType<?>>, String> getEntityTranslations() {
         return ENTITY_TRANSLATIONS;
     }
 
     @Override
-    public Map<MobEffect, String> getEffectTranslations() {
+    public Map<Supplier<? extends MobEffect>, String> getEffectTranslations() {
         return EFFECT_TRANSLATIONS;
     }
 
     @Override
-    public Map<Enchantment, String> getEnchantmentTranslations() {
+    public Map<Supplier<? extends Enchantment>, String> getEnchantmentTranslations() {
         return ENCHANTMENT_TRANSLATIONS;
     }
 
