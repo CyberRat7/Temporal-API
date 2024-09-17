@@ -17,7 +17,7 @@ public class PolishTranslationStrategy implements FieldAnnotationStrategy {
         if (field.isAnnotationPresent(PolishTranslation.class)) {
             field.setAccessible(true);
             PolishTranslation translation = field.getDeclaredAnnotation(PolishTranslation.class);
-            if (translation.id() != null) {
+            if (!translation.id().isBlank()) {
                 PolishProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
             } else {
                 RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);

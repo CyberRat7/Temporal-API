@@ -17,7 +17,7 @@ public class GermanTranslationStrategy implements FieldAnnotationStrategy {
         if (field.isAnnotationPresent(GermanTranslation.class)) {
             field.setAccessible(true);
             GermanTranslation translation = field.getDeclaredAnnotation(GermanTranslation.class);
-            if (translation.id() != null) {
+            if (!translation.id().isBlank()) {
                 GermanProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
             } else {
                 RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);

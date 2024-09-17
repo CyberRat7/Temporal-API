@@ -17,7 +17,7 @@ public class UkrainianTranslationStrategy implements FieldAnnotationStrategy {
         if (field.isAnnotationPresent(UkrainianTranslation.class)) {
             field.setAccessible(true);
             UkrainianTranslation translation = field.getDeclaredAnnotation(UkrainianTranslation.class);
-            if (translation.id() != null) {
+            if (!translation.id().isBlank()) {
                 UkrainianProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
             } else {
                 RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);

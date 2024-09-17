@@ -17,7 +17,7 @@ public class FrenchTranslationStrategy implements FieldAnnotationStrategy {
         if (field.isAnnotationPresent(FrenchTranslation.class)) {
             field.setAccessible(true);
             FrenchTranslation translation = field.getDeclaredAnnotation(FrenchTranslation.class);
-            if (translation.id() != null) {
+            if (!translation.id().isBlank()) {
                 FrenchProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
             } else {
                 RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);

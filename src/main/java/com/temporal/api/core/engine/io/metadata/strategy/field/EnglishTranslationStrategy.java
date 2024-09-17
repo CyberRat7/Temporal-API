@@ -17,7 +17,7 @@ public class EnglishTranslationStrategy implements FieldAnnotationStrategy {
         if (field.isAnnotationPresent(EnglishTranslation.class)) {
             field.setAccessible(true);
             EnglishTranslation translation = field.getDeclaredAnnotation(EnglishTranslation.class);
-            if (translation.id() != null) {
+            if (!translation.id().isBlank()) {
                 EnglishProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
             } else {
                 RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);

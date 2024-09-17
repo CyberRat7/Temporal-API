@@ -17,7 +17,7 @@ public class ItalianTranslationStrategy implements FieldAnnotationStrategy {
         if (field.isAnnotationPresent(ItalianTranslation.class)) {
             field.setAccessible(true);
             ItalianTranslation translation = field.getDeclaredAnnotation(ItalianTranslation.class);
-            if (translation.id() != null) {
+            if (!translation.id().isBlank()) {
                 ItalianProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
             } else {
                 RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);
