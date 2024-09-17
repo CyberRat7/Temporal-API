@@ -1,7 +1,7 @@
 package com.temporal.api.core.engine.io.metadata.strategy.field;
 
-import com.temporal.api.core.engine.io.metadata.annotation.Translation;
-import com.temporal.api.core.event.data.language.ApiLanguageProvider;
+import com.temporal.api.core.engine.io.metadata.annotation.PolishTranslation;
+import com.temporal.api.core.event.data.language.PolishProvider;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -11,27 +11,27 @@ import net.minecraftforge.registries.RegistryObject;
 
 import java.lang.reflect.Field;
 
-public class TranslationStrategy implements FieldAnnotationStrategy {
+public class PolishTranslationStrategy implements FieldAnnotationStrategy {
     @Override
     public void execute(Field field, Object object) throws Exception {
-        if (field.isAnnotationPresent(Translation.class)) {
+        if (field.isAnnotationPresent(PolishTranslation.class)) {
             field.setAccessible(true);
-            Translation translation = field.getDeclaredAnnotation(Translation.class);
+            PolishTranslation translation = field.getDeclaredAnnotation(PolishTranslation.class);
             if (translation.id() != null) {
-                ApiLanguageProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
+                PolishProvider.OTHER_TRANSLATIONS.put(translation.id(), translation.value());
             } else {
                 RegistryObject<?> registryObject = (RegistryObject<?>) field.get(object);
                 Object capturedObject = registryObject.get();
                 if (capturedObject instanceof Item item) {
-                    ApiLanguageProvider.ITEM_TRANSLATIONS.put(item, translation.value());
+                    PolishProvider.ITEM_TRANSLATIONS.put(item, translation.value());
                 } else if (capturedObject instanceof Block block) {
-                    ApiLanguageProvider.BLOCK_TRANSLATIONS.put(block, translation.value());
+                    PolishProvider.BLOCK_TRANSLATIONS.put(block, translation.value());
                 } else if (capturedObject instanceof EntityType<?> entityType) {
-                    ApiLanguageProvider.ENTITY_TRANSLATIONS.put(entityType, translation.value());
+                    PolishProvider.ENTITY_TRANSLATIONS.put(entityType, translation.value());
                 } else if (capturedObject instanceof MobEffect mobEffect) {
-                    ApiLanguageProvider.EFFECT_TRANSLATIONS.put(mobEffect, translation.value());
+                    PolishProvider.EFFECT_TRANSLATIONS.put(mobEffect, translation.value());
                 } else if (capturedObject instanceof Enchantment enchantment) {
-                    ApiLanguageProvider.ENCHANTMENT_TRANSLATIONS.put(enchantment, translation.value());
+                    PolishProvider.ENCHANTMENT_TRANSLATIONS.put(enchantment, translation.value());
                 }
             }
         }

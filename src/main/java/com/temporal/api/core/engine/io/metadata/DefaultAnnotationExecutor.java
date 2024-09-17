@@ -58,7 +58,13 @@ public class DefaultAnnotationExecutor implements AnnotationExecutor {
                 new BlockModelStrategy(),
                 new ItemModelStrategy(),
                 new BlockLootTableStrategy(),
-                new TranslationStrategy(),
+                new EnglishTranslationStrategy(),
+                new UkrainianTranslationStrategy(),
+                new PolishTranslationStrategy(),
+                new GermanTranslationStrategy(),
+                new FrenchTranslationStrategy(),
+                new ItalianTranslationStrategy(),
+                new SpanishTranslationStrategy(),
                 new RecipeStrategy()
         );
 

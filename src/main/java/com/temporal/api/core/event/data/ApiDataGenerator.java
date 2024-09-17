@@ -1,6 +1,6 @@
 package com.temporal.api.core.event.data;
 
-import com.temporal.api.core.event.data.language.ApiLanguageProvider;
+import com.temporal.api.core.event.data.language.*;
 import com.temporal.api.core.event.data.loot.LootTableProviderFactory;
 import com.temporal.api.core.event.data.model.block.BlockStateProvider;
 import com.temporal.api.core.event.data.model.item.ItemModelProvider;
@@ -40,7 +40,13 @@ public class ApiDataGenerator implements DataGatherer {
     public void addLanguageProvider(GatherDataEvent event) {
         final DataGenerator generator = getDataGenerator(event);
         final PackOutput packOutput = getPackOutput(event);
-        generator.addProvider(event.includeClient(), new ApiLanguageProvider(packOutput));
+        generator.addProvider(event.includeClient(), new EnglishProvider(packOutput));
+        generator.addProvider(event.includeClient(), new UkrainianProvider(packOutput));
+        generator.addProvider(event.includeClient(), new PolishProvider(packOutput));
+        generator.addProvider(event.includeClient(), new GermanProvider(packOutput));
+        generator.addProvider(event.includeClient(), new FrenchProvider(packOutput));
+        generator.addProvider(event.includeClient(), new ItalianProvider(packOutput));
+        generator.addProvider(event.includeClient(), new SpanishProvider(packOutput));
     }
 
     @Override

@@ -9,32 +9,32 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
 
-import java.util.HashMap;
 import java.util.Map;
 
-public class ApiLanguageProvider extends LanguageProvider {
-    public static final Map<Item, String> ITEM_TRANSLATIONS = new HashMap<>();
-    public static final Map<Block, String> BLOCK_TRANSLATIONS = new HashMap<>();
-    public static final Map<EntityType<?>, String> ENTITY_TRANSLATIONS = new HashMap<>();
-    public static final Map<MobEffect, String> EFFECT_TRANSLATIONS = new HashMap<>();
-    public static final Map<Enchantment, String> ENCHANTMENT_TRANSLATIONS = new HashMap<>();
-    public static final Map<String, String> OTHER_TRANSLATIONS = new HashMap<>();
-
-    public ApiLanguageProvider(PackOutput output) {
-        this(output, "en-us");
-    }
-
+public abstract class ApiLanguageProvider extends LanguageProvider {
     public ApiLanguageProvider(PackOutput output, String locale) {
         super(output, IOLayer.FORGE_MOD.getModId(), locale);
     }
 
     @Override
     protected void addTranslations() {
-        ITEM_TRANSLATIONS.forEach(this::add);
-        BLOCK_TRANSLATIONS.forEach(this::add);
-        ENTITY_TRANSLATIONS.forEach(this::add);
-        EFFECT_TRANSLATIONS.forEach(this::add);
-        ENCHANTMENT_TRANSLATIONS.forEach(this::add);
-        OTHER_TRANSLATIONS.forEach(this::add);
+        this.getItemTranslations().forEach(this::add);
+        this.getBlockTranslations().forEach(this::add);
+        this.getEntityTranslations().forEach(this::add);
+        this.getEffectTranslations().forEach(this::add);
+        this.getEnchantmentTranslations().forEach(this::add);
+        this.getOtherTranslations().forEach(this::add);
     }
+
+    public abstract Map<Item, String> getItemTranslations();
+
+    public abstract Map<Block, String> getBlockTranslations();
+
+    public abstract Map<EntityType<?>, String> getEntityTranslations();
+
+    public abstract Map<MobEffect, String> getEffectTranslations();
+
+    public abstract Map<Enchantment, String> getEnchantmentTranslations();
+
+    public abstract Map<String, String> getOtherTranslations();
 }
