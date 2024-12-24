@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public interface TrapDoorExtension {
     default RegistryObject<TrapDoorBlock> createTrapDoor(String name, BlockBehaviour.Properties properties, BlockSetType setType) {
         final TypedFactory<Block> blockFactory = InjectionContext.getInstance().getObject(BlockFactory.class);
-        return (RegistryObject<TrapDoorBlock>) blockFactory.createTyped(name, () -> new TrapDoorBlock(properties, setType));
+        return (RegistryObject<TrapDoorBlock>) blockFactory.createTyped(name, () -> new TrapDoorBlock(setType, properties));
     }
 
     default RegistryObject<? extends TrapDoorBlock> createTrapDoor(String name, Supplier<? extends TrapDoorBlock> tTypedSupplier) {

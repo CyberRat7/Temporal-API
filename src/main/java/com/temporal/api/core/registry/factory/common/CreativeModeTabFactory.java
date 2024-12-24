@@ -1,6 +1,6 @@
 package com.temporal.api.core.registry.factory.common;
 
-import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.io.IOHelper;
 import com.temporal.api.core.engine.io.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.function.Supplier;
 
 public class CreativeModeTabFactory implements ObjectFactory<CreativeModeTab> {
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = EnginedRegisterFactory.create(Registries.CREATIVE_MODE_TAB);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = IOHelper.createRegistry(Registries.CREATIVE_MODE_TAB);
 
     public RegistryObject<CreativeModeTab> create(String name, Item icon, String translationId, Item... items) {
         return create(name, () -> CreativeModeTab.builder()

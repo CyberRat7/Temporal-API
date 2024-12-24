@@ -27,7 +27,8 @@ public class SimpleTabDirector implements TabDirector {
     }
 
     @Override
-    public TabDirector direct(boolean condition, ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
+    @SafeVarargs
+    public final TabDirector direct(boolean condition, ResourceKey<CreativeModeTab> tab, Supplier<? extends ItemLike>... registries) {
         if (condition) {
             try {
                 this.tabAdder.addAllToTab(this.event, tab, registries);

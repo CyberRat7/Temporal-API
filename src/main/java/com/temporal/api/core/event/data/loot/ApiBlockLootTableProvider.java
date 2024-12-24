@@ -1,6 +1,7 @@
 package com.temporal.api.core.event.data.loot;
 
 import com.temporal.api.core.registry.factory.common.BlockFactory;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
@@ -10,8 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Set;
 
 public abstract class ApiBlockLootTableProvider extends BlockLootSubProvider {
-    protected ApiBlockLootTableProvider() {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    protected ApiBlockLootTableProvider(HolderLookup.Provider registries) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
     }
 
     @Override

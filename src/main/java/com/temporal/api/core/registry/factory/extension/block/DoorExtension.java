@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 public interface DoorExtension {
     default RegistryObject<DoorBlock> createDoor(String name, BlockBehaviour.Properties properties, BlockSetType setType) {
         final TypedFactory<Block> blockFactory = InjectionContext.getInstance().getObject(BlockFactory.class);
-        return (RegistryObject<DoorBlock>) blockFactory.createTyped(name, () -> new DoorBlock(properties, setType));
+        return (RegistryObject<DoorBlock>) blockFactory.createTyped(name, () -> new DoorBlock(setType, properties));
     }
 
     default RegistryObject<? extends DoorBlock> createDoor(String name, Supplier<? extends DoorBlock> tTypedSupplier) {

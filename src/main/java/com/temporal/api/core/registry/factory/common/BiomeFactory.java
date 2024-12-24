@@ -1,6 +1,6 @@
 package com.temporal.api.core.registry.factory.common;
 
-import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.io.IOHelper;
 import com.temporal.api.core.engine.io.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.biome.Biome;
@@ -11,7 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class BiomeFactory implements TypedFactory<Biome> {
-    public static final DeferredRegister<Biome> BIOMES = EnginedRegisterFactory.create(Registries.BIOME);
+    public static final DeferredRegister<Biome> BIOMES = IOHelper.createRegistry(Registries.BIOME);
 
     @Override
     public RegistryObject<Biome> create(String name, Supplier<Biome> potionSupplier) {

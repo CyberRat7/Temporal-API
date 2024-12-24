@@ -4,6 +4,7 @@ import com.temporal.api.core.event.trade.object.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
@@ -19,8 +20,8 @@ public class SimpleTradeCustomizer implements TradeCustomizer {
             TradingItemHolder itemStack1 = villagerTrade.getHolder1();
             TradingItemHolder itemStack2 = villagerTrade.getHolder2();
             trades.get(tradeDescription.getLevel()).add((trader, random) -> new MerchantOffer(
-                    new ItemStack(itemStack1.getItem(), itemStack1.getItemCount()),
-                    new ItemStack(itemStack2.getItem(), itemStack2.getItemCount()),
+                    new ItemCost(itemStack1.item(), itemStack1.itemCount()),
+                    new ItemStack(itemStack2.item(), itemStack2.itemCount()),
                     tradeDescription.getMaxUses(), tradeDescription.getXP(), tradeDescription.getPriceMultiplier()
             ));
         }
@@ -33,14 +34,14 @@ public class SimpleTradeCustomizer implements TradeCustomizer {
         TradingItemHolder itemStack2 = wandererTrade.getHolder2();
         if (tradeDescription.getTradeRarity() == WandererTradeDescription.TradeRarity.GENERIC) {
             event.getGenericTrades().add(((trader, random) -> new MerchantOffer(
-                    new ItemStack(itemStack1.getItem(), itemStack1.getItemCount()),
-                    new ItemStack(itemStack2.getItem(), itemStack2.getItemCount()),
+                    new ItemCost(itemStack1.item(), itemStack1.itemCount()),
+                    new ItemStack(itemStack2.item(), itemStack2.itemCount()),
                     tradeDescription.getMaxUses(), tradeDescription.getXP(), tradeDescription.getPriceMultiplier()
             )));
         } else {
             event.getRareTrades().add(((trader, random) -> new MerchantOffer(
-                    new ItemStack(itemStack1.getItem(), itemStack1.getItemCount()),
-                    new ItemStack(itemStack2.getItem(), itemStack2.getItemCount()),
+                    new ItemCost(itemStack1.item(), itemStack1.itemCount()),
+                    new ItemStack(itemStack2.item(), itemStack2.itemCount()),
                     tradeDescription.getMaxUses(), tradeDescription.getXP(), tradeDescription.getPriceMultiplier()
             )));
         }

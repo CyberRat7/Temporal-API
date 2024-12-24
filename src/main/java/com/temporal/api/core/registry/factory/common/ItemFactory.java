@@ -1,6 +1,6 @@
 package com.temporal.api.core.registry.factory.common;
 
-import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.io.IOHelper;
 import com.temporal.api.core.engine.io.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
@@ -11,7 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class ItemFactory implements TypedFactory<Item> {
-    public static final DeferredRegister<Item> ITEMS = EnginedRegisterFactory.create(Registries.ITEM);
+    public static final DeferredRegister<Item> ITEMS = IOHelper.createRegistry(Registries.ITEM);
 
     public RegistryObject<Item> create(String name) {
         return create(name, () -> new Item(new Item.Properties()));

@@ -1,7 +1,7 @@
 package com.temporal.api.core.registry.factory.common;
 
 import com.google.common.collect.ImmutableSet;
-import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.io.IOHelper;
 import com.temporal.api.core.engine.io.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
@@ -16,7 +16,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class VillagerProfessionFactory implements TypedFactory<VillagerProfession> {
-    public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = EnginedRegisterFactory.create(Registries.VILLAGER_PROFESSION);
+    public static final DeferredRegister<VillagerProfession> VILLAGER_PROFESSIONS = IOHelper.createRegistry(Registries.VILLAGER_PROFESSION);
 
     public RegistryObject<VillagerProfession> create(String name, String professionName, PoiType heldJobSite, SoundEvent workSound) {
         return create(name, () -> new VillagerProfession(professionName, holder -> holder.get() == heldJobSite, holder -> holder.get() == heldJobSite, ImmutableSet.of(), ImmutableSet.of(), workSound));

@@ -2,7 +2,7 @@ package com.temporal.api.core.event.data.model.block;
 
 import com.temporal.api.common.block.LogBlock;
 import com.temporal.api.core.engine.IOLayer;
-import com.temporal.api.core.engine.io.resource.InjectedResourceLocation;
+import com.temporal.api.core.engine.io.IOHelper;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.*;
@@ -11,6 +11,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.lang3.StringUtils;
 
+@SuppressWarnings({"deprecated", "removal"})
 public abstract class ApiBlockStateProvider extends BlockStateProvider {
     public ApiBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, IOLayer.FORGE_MOD.getModId(), exFileHelper);
@@ -29,7 +30,7 @@ public abstract class ApiBlockStateProvider extends BlockStateProvider {
     protected void registerDoorBlock(RegistryObject<DoorBlock> blockRegistryObject) {
         DoorBlock block = blockRegistryObject.get();
         String path = "block/" + blockRegistryObject.getId().getPath();
-        this.doorBlock(block, new InjectedResourceLocation(path + "_top"), new InjectedResourceLocation(path + "_bottom"));
+        this.doorBlock(block, IOHelper.createResourceLocation(path + "_top"), IOHelper.createResourceLocation(path + "_bottom"));
     }
 
     protected void registerFenceBlock(RegistryObject<FenceBlock> blockRegistryObject) {
@@ -56,7 +57,7 @@ public abstract class ApiBlockStateProvider extends BlockStateProvider {
     protected void registerSlabBlock(RegistryObject<SlabBlock> blockRegistryObject) {
         SlabBlock block = blockRegistryObject.get();
         String path = blockRegistryObject.getId().getPath();
-        ResourceLocation texture = new InjectedResourceLocation("block/" + StringUtils.substringBefore(path, "_slab"));
+        ResourceLocation texture = IOHelper.createResourceLocation("block/" + StringUtils.substringBefore(path, "_slab"));
         this.slabBlock(block, texture, texture);
         this.simpleBlockItem(block, models().slab(path, texture, texture, texture));
     }
@@ -96,6 +97,6 @@ public abstract class ApiBlockStateProvider extends BlockStateProvider {
     }
 
     protected ResourceLocation getLocation(RegistryObject<?> registryObject) {
-        return new InjectedResourceLocation("block/" + registryObject.getId().getPath());
+        return IOHelper.createResourceLocation("block/" + registryObject.getId().getPath());
     }
 }

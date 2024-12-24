@@ -1,7 +1,6 @@
 package com.temporal.api.core.registry.factory.common;
 
-import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
-import com.temporal.api.core.engine.io.resource.InjectedResourceLocation;
+import com.temporal.api.core.engine.io.IOHelper;
 import com.temporal.api.core.engine.io.context.InjectionContext;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvent;
@@ -12,10 +11,10 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class SoundEventFactory implements TypedFactory<SoundEvent> {
-    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = EnginedRegisterFactory.create(Registries.SOUND_EVENT);
+    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = IOHelper.createRegistry(Registries.SOUND_EVENT);
 
     public RegistryObject<SoundEvent> create(String name) {
-        return create(name, () -> SoundEvent.createVariableRangeEvent(new InjectedResourceLocation(name)));
+        return create(name, () -> SoundEvent.createVariableRangeEvent(IOHelper.createResourceLocation(name)));
     }
 
     @Override

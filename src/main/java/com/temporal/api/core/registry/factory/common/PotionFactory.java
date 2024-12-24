@@ -1,7 +1,8 @@
 package com.temporal.api.core.registry.factory.common;
 
-import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.io.IOHelper;
 import com.temporal.api.core.engine.io.context.InjectionContext;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,14 +14,14 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class PotionFactory implements TypedFactory<Potion> {
-    public static final DeferredRegister<Potion> POTIONS = EnginedRegisterFactory.create(Registries.POTION);
+    public static final DeferredRegister<Potion> POTIONS = IOHelper.createRegistry(Registries.POTION);
 
     public RegistryObject<Potion> create(String name, MobEffectInstance mobEffectInstance) {
-        return create(name, () -> new Potion(mobEffectInstance));
+        return create(name, () -> new Potion(name, mobEffectInstance));
     }
 
-    public RegistryObject<Potion> create(String name, Supplier<MobEffect> effect, int duration) {
-        return create(name, () -> new Potion(new MobEffectInstance(effect.get(), duration)));
+    public RegistryObject<Potion> create(String name, Holder<MobEffect> effect, int duration) {
+        return create(name, () -> new Potion(name, new MobEffectInstance(effect, duration)));
     }
 
     @Override

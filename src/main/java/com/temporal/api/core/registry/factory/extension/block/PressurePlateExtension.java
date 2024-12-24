@@ -13,9 +13,9 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public interface PressurePlateExtension {
-    default RegistryObject<PressurePlateBlock> createPressurePlate(String name, BlockBehaviour.Properties properties, BlockSetType setType, PressurePlateBlock.Sensitivity sensitivity) {
+    default RegistryObject<PressurePlateBlock> createPressurePlate(String name, BlockBehaviour.Properties properties, BlockSetType setType) {
         final TypedFactory<Block> blockFactory = InjectionContext.getInstance().getObject(BlockFactory.class);
-        return (RegistryObject<PressurePlateBlock>) blockFactory.createTyped(name, () -> new PressurePlateBlock(sensitivity, properties, setType));
+        return (RegistryObject<PressurePlateBlock>) blockFactory.createTyped(name, () -> new PressurePlateBlock(setType, properties));
     }
 
     default RegistryObject<? extends PressurePlateBlock> createPressurePlate(String name, Supplier<? extends PressurePlateBlock> tTypedSupplier) {

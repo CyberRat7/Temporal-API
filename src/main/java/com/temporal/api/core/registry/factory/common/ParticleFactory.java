@@ -1,6 +1,6 @@
 package com.temporal.api.core.registry.factory.common;
 
-import com.temporal.api.core.engine.event.registry.EnginedRegisterFactory;
+import com.temporal.api.core.engine.io.IOHelper;
 import com.temporal.api.core.engine.io.context.InjectionContext;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -12,7 +12,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class ParticleFactory implements TypedFactory<ParticleType<SimpleParticleType>> {
-    public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = EnginedRegisterFactory.create(Registries.PARTICLE_TYPE);
+    public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = IOHelper.createRegistry(Registries.PARTICLE_TYPE);
 
     public RegistryObject<ParticleType<SimpleParticleType>> create(String name, boolean overrideLimiter) {
         return create(name, () -> new SimpleParticleType(overrideLimiter));

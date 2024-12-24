@@ -3,7 +3,7 @@ package com.temporal.api.core.util.properties;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
-import static net.minecraft.world.level.block.state.BlockBehaviour.*;
+import static net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class BlockPropertiesFactory {
     public static Properties empty() {
@@ -31,6 +31,6 @@ public class BlockPropertiesFactory {
     }
 
     public static Properties copy(BlockBehaviour block) {
-        return Properties.copy(block);
+        return Properties.ofFullCopy(block);
     }
 }

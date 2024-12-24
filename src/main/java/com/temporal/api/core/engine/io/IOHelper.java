@@ -1,13 +1,20 @@
 package com.temporal.api.core.engine.io;
 
+import com.temporal.api.core.engine.IOLayer;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.forgespi.language.ModFileScanData;
+import net.minecraftforge.registries.DeferredRegister;
 import org.objectweb.asm.Type;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class IOHelper {
@@ -61,5 +68,13 @@ public class IOHelper {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static ResourceLocation createResourceLocation(String name) {
+        return ResourceLocation.fromNamespaceAndPath(IOLayer.FORGE_MOD.getModId(), name);
+    }
+
+    public static <T> DeferredRegister<T> createRegistry(ResourceKey<Registry<T>> registry) {
+        return DeferredRegister.create(registry, IOLayer.FORGE_MOD.getModId());
     }
 }

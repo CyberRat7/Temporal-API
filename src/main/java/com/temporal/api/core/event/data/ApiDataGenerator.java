@@ -5,11 +5,14 @@ import com.temporal.api.core.event.data.loot.LootTableProviderFactory;
 import com.temporal.api.core.event.data.model.block.BlockStateProvider;
 import com.temporal.api.core.event.data.model.item.ItemModelProvider;
 import com.temporal.api.core.event.data.recipe.ApiRecipeProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ApiDataGenerator implements DataGatherer {
     @Override
@@ -24,7 +27,8 @@ public class ApiDataGenerator implements DataGatherer {
     public void addLootTableProvider(GatherDataEvent event) {
         final DataGenerator generator = getDataGenerator(event);
         final PackOutput packOutput = getPackOutput(event);
-        generator.addProvider(event.includeServer(), LootTableProviderFactory.createWithSelfDrop(packOutput));
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        generator.addProvider(event.includeServer(), LootTableProviderFactory.createProvider(packOutput, lookupProvider));
     }
 
     @Override
@@ -53,7 +57,8 @@ public class ApiDataGenerator implements DataGatherer {
     public void addRecipeProvider(GatherDataEvent event) {
         final DataGenerator generator = getDataGenerator(event);
         final PackOutput packOutput = getPackOutput(event);
-        generator.addProvider(event.includeServer(), new ApiRecipeProvider(packOutput));
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        generator.addProvider(event.includeServer(), new ApiRecipeProvider.Runner(packOutput, lookupProvider));
     }
 
     @Override

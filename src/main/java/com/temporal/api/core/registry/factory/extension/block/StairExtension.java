@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 public interface StairExtension {
     default RegistryObject<StairBlock> createStair(String name, Block block, BlockBehaviour.Properties properties) {
         final TypedFactory<Block> blockFactory = InjectionContext.getInstance().getObject(BlockFactory.class);
-        return (RegistryObject<StairBlock>) blockFactory.createTyped(name, () -> new StairBlock(block::defaultBlockState, properties));
+        return (RegistryObject<StairBlock>) blockFactory.createTyped(name, () -> new StairBlock(block.defaultBlockState(), properties));
     }
 
     default RegistryObject<? extends StairBlock> createStair(String name, Supplier<? extends StairBlock> tTypedSupplier) {

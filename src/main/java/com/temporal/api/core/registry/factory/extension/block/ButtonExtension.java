@@ -13,9 +13,9 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unchecked")
 public interface ButtonExtension {
-    default RegistryObject<ButtonBlock> createButton(String name, BlockBehaviour.Properties properties, BlockSetType setType, int ticksToStayPressed, boolean canArrowPress) {
+    default RegistryObject<ButtonBlock> createButton(String name, BlockBehaviour.Properties properties, BlockSetType setType, int ticksToStayPressed) {
         final TypedFactory<Block> blockFactory = InjectionContext.getInstance().getObject(BlockFactory.class);
-        return (RegistryObject<ButtonBlock>) blockFactory.createTyped(name, () -> new ButtonBlock(properties, setType, ticksToStayPressed, canArrowPress));
+        return (RegistryObject<ButtonBlock>) blockFactory.createTyped(name, () -> new ButtonBlock(setType, ticksToStayPressed, properties));
     }
 
     default RegistryObject<? extends ButtonBlock> createButton(String name, Supplier<? extends ButtonBlock> tTypedSupplier) {
